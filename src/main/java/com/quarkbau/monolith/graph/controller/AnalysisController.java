@@ -44,4 +44,10 @@ public class AnalysisController {
     public ResponseEntity<java.util.List<Object>> getProjectRiskDetails(@PathVariable Long projectId) {
         return ResponseEntity.ok(new java.util.ArrayList<>());
     }
+
+    @PostMapping("/recalculate")
+    public ResponseEntity<Void> recalculate() {
+        // Stub for manually triggering risk recalculation
+        return ResponseEntity.ok().build();
+    }
 }
