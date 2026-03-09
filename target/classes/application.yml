@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: quarkbau-monolith
+  datasource:
+    url: jdbc:postgresql://localhost:5432/quarkbau_monolith
+    username: quarkbau
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 20
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+server:
+  port: 8080
+
+# Security Configuration (Placeholder - to be refined during Auth migration)
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+      expiration: 86400000 # 1 day
