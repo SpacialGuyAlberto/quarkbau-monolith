@@ -1,6 +1,5 @@
 package com.quarkbau.monolith.planning.service;
 
-import com.quarkbau.monolith.inventory.repository.MaterialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class InventoryIntegrationService {
-
-    private final MaterialRepository materialRepository;
 
     @Transactional
     public void consumeMaterial(String sku, Double quantity) {

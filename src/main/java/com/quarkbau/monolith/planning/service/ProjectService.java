@@ -1,16 +1,17 @@
 package com.quarkbau.monolith.planning.service;
 
 import com.quarkbau.monolith.planning.dto.ProjectDTO;
+import com.quarkbau.monolith.planning.dto.mappers.ProjectMapper;
 import com.quarkbau.monolith.planning.model.Project;
 import com.quarkbau.monolith.planning.repository.ProjectRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProjectService {
     private final ProjectRepository projectRepository;
+    private final ProjectMapper projectMapper;
 
     public Project create(ProjectDTO project) {
         Project newProject = new Project();
@@ -23,11 +24,13 @@ public class ProjectService {
     }
 
     public void delete(ProjectDTO project) {
-        projectRepository.delete(project);
+        Project mappedProject = projectMapper.toEntity(project);
+        projectRepository.delete(mappedProject);
     }
 
     public Project update(ProjectDTO project) {
-        return projectRepository.save(project);
+        Project mappedProject = projectMapper.toEntity(project);
+        return projectRepository.save(mappedProject);
     }
 
 }

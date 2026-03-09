@@ -7,8 +7,8 @@ import com.quarkbau.monolith.planning.model.WorkType;
 import com.quarkbau.monolith.planning.model.WorkflowState;
 import com.quarkbau.monolith.planning.repository.ProjectRepository;
 import com.quarkbau.monolith.planning.repository.SegmentRepository;
-import com.quarkbau.monolith.planning.repository.CrewRepository;
 import com.quarkbau.monolith.planning.service.InventoryIntegrationService;
+import com.quarkbau.monolith.graph.service.Neo4jSyncService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +23,8 @@ public class SegmentController {
 
     private final SegmentRepository segmentRepository;
     private final ProjectRepository projectRepository;
-    private final CrewRepository crewRepository;
     private final InventoryIntegrationService inventoryService;
+    private final Neo4jSyncService neo4jSyncService;
 
     @GetMapping("/projects/{projectId}/segments")
     public List<SegmentDTO> getProjectSegments(@PathVariable Long projectId) {
@@ -39,6 +39,7 @@ public class SegmentController {
                 .map(project -> {
                     Segment segment = toEntity(segmentDTO, project);
                     Segment saved = segmentRepository.save(segment);
+                    neo4jSyncService.syncSegment(saved);
                     return ResponseEntity.ok(toDTO(saved));
                 })
                 .orElse(ResponseEntity.notFound().build());
@@ -56,6 +57,7 @@ public class SegmentController {
                     // ... other updates omitted for brevity in this initial migration step
 
                     Segment saved = segmentRepository.save(existingSegment);
+                    neo4jSyncService.syncSegment(saved);
 
                     if (isCompleting && WorkType.DUCT_INSTALLATION.equals(saved.getWorkType())) {
                         double qty = saved.getLength() != null ? saved.getLength() * 1.05 : 0;
