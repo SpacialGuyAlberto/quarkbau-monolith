@@ -7,5 +7,7 @@ public enum WorkflowState {
     READY,
     CONSTRUCTION,
     QA,
-    COMPLETED
+    COMPLETED,
+    IN_PROGRESS,
+    PLANNED
 }

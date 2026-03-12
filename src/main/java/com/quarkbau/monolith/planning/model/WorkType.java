@@ -7,5 +7,10 @@ public enum WorkType {
     DRILLING,
     BACKFILL,
     ASPHALT,
-    QA
+    QA,
+    DUCT_LAYING,
+    FIBER_BLOWING,
+    SPLICING,
+    RESTORATION
 }
+
