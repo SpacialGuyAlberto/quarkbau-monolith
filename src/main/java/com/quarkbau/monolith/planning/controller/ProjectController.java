@@ -2,6 +2,7 @@ package com.quarkbau.monolith.planning.controller;
 
 import com.quarkbau.monolith.planning.model.Project;
 import com.quarkbau.monolith.planning.repository.ProjectRepository;
+import com.quarkbau.monolith.planning.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,11 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectRepository repository;
+    private final ProjectService service;
 
     @GetMapping
     public List<Project> getAllProjects() {
-        List<Project> projects = repository.findAll();
+        List<Project> projects = service.findAllProjects();
         if (projects.isEmpty()) {
             Project p1 = new Project();
             p1.setName("Berlin Fiber Optics");

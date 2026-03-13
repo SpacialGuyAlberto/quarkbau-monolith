@@ -7,11 +7,17 @@ import com.quarkbau.monolith.planning.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
+
+    public List<Project> findAllProjects(){
+        return projectRepository.findAll();
+    }
 
     public Project create(ProjectDTO project) {
         Project newProject = new Project();
