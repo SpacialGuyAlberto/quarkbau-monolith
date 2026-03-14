@@ -46,6 +46,7 @@ com\quarkbau\monolith\planning\dto\mappers\ProjectMapper.class
 com\quarkbau\monolith\planning\service\InventoryIntegrationService.class
 com\quarkbau\monolith\infrastructure\model\UtilityProvider.class
 com\quarkbau\monolith\safety\service\IncidentService.class
+com\quarkbau\monolith\planning\dto\mappers\SegmentMapperImpl.class
 com\quarkbau\monolith\bim\service\BimService.class
 com\quarkbau\monolith\field\controller\FieldController.class
 com\quarkbau\monolith\safety\repository\SafetyProtocolRepository.class
@@ -87,6 +88,7 @@ com\quarkbau\monolith\safety\model\Incident.class
 com\quarkbau\monolith\planning\model\Subcontractor$Status.class
 com\quarkbau\monolith\schedule\controller\ScheduleController.class
 com\quarkbau\monolith\workflow\model\WorkflowTask.class
+com\quarkbau\monolith\planning\service\SegmentService.class
 com\quarkbau\monolith\planning\model\Subcontractor.class
 com\quarkbau\monolith\field\model\FieldCrew.class
 com\quarkbau\monolith\planning\service\ProjectService.class
@@ -97,6 +99,7 @@ com\quarkbau\monolith\inventory\controller\MaterialController.class
 com\quarkbau\monolith\graph\model\SegmentNode.class
 com\quarkbau\monolith\safety\controller\SafetyController.class
 com\quarkbau\monolith\safety\model\TrafficPermit.class
+com\quarkbau\monolith\planning\dto\mappers\SegmentMapper.class
 com\quarkbau\monolith\planning\dto\ProjectDTO$ProjectDTOBuilder.class
 com\quarkbau\monolith\planning\model\Organization.class
 com\quarkbau\monolith\workflow\controller\WorkflowController.class

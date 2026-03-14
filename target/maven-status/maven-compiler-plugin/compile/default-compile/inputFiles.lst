@@ -15,6 +15,7 @@ C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\inventory\repository\SupplierRepository.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\auth\controller\AuthController.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\report\service\ReportService.java
+C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\planning\service\SegmentService.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\workflow\controller\WorkflowController.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\infrastructure\model\Inquiry.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\safety\model\Incident.java
@@ -38,6 +39,7 @@ C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\inventory\repository\MaterialRepository.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\field\dto\Point3D.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\auth\dto\AuthResponse.java
+C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\planning\dto\mappers\SegmentMapper.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\planning\model\Segment.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\auth\repository\UserRepository.java
 C:\Users\LuisAlberto\Documents\personal\proyects\quarkbau-monolith\src\main\java\com\quarkbau\monolith\graph\repository\SegmentNodeRepository.java

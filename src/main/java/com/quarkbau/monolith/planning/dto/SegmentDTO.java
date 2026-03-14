@@ -1,9 +1,11 @@
 package com.quarkbau.monolith.planning.dto;
 
+import com.quarkbau.monolith.planning.model.GeometryPoint;
 import com.quarkbau.monolith.planning.model.WorkType;
 import com.quarkbau.monolith.planning.model.WorkflowState;
 import lombok.Data;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class SegmentDTO {
@@ -19,6 +21,7 @@ public class SegmentDTO {
     private Double startLongitude;
     private Double endLatitude;
     private Double endLongitude;
+    private List<GeometryPoint> geometry;
     private LocalDate plannedStartDate;
     private LocalDate plannedEndDate;
 }
