@@ -1,5 +1,7 @@
 package com.quarkbau.monolith.planning.controller;
 
+import com.quarkbau.monolith.planning.dto.ProjectDTO;
+import com.quarkbau.monolith.planning.dto.mappers.ProjectMapper;
 import com.quarkbau.monolith.planning.model.Project;
 import com.quarkbau.monolith.planning.repository.ProjectRepository;
 import com.quarkbau.monolith.planning.service.ProjectService;
@@ -15,6 +17,7 @@ public class ProjectController {
 
     private final ProjectRepository repository;
     private final ProjectService service;
+    private final ProjectMapper mapper;
 
     @GetMapping
     public List<Project> getAllProjects() {
@@ -39,5 +42,11 @@ public class ProjectController {
     public Project getProjectById(@PathVariable Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Project not found with id: " + id));
+    }
+
+    @PostMapping
+    public ProjectDTO saveProject(@RequestBody ProjectDTO project) {
+        Project project1 = service.create(project);
+        return mapper.toDto(project1);
     }
 }
