@@ -5,5 +5,6 @@ public enum UserRole {
     MANAGER,
     FIELD_EXPERT,
     SUBCONTRACTOR,
-    CLIENT
+    CLIENT,
+    PROJECT_MANAGER
 }

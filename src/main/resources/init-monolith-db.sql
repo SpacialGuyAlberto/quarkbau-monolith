@@ -188,7 +188,8 @@ INSERT INTO users (email, password, first_name, last_name, role, enabled) VALUES
 ('admin@quarkbau.com',    '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOcd7QA8qzhki', 'System',  'Admin',    'ADMIN',   true),
 ('manager@quarkbau.com',  '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOcd7QA8qzhki', 'Klaus',   'Richter',  'MANAGER', true),
 ('engineer@quarkbau.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOcd7QA8qzhki', 'Sophie',  'Wagner',   'ENGINEER',true),
-('viewer@quarkbau.com',   '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOcd7QA8qzhki', 'Markus',  'Bauer',    'VIEWER',  true)
+('viewer@quarkbau.com',   '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOcd7QA8qzhki', 'Markus',  'Bauer',    'VIEWER',  true),
+('luis@quarkbau.com',   '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOcd7QA8qzhki', 'Luis',  'Alberto',    'PROJECT_MANAGER',  true)
 ON CONFLICT (email) DO NOTHING;
 
 -- Suppliers
