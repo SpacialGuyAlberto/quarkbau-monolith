@@ -29,16 +29,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
+
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
+
+        // Agregamos trim() para eliminar espacios accidentales
+        jwt = authHeader.substring(7).trim();
+
+        // 1. VALIDAMOS LA ESTRUCTURA AQUÍ (Antes del try/catch)
+        if (!isWellFormedJwt(jwt)) {
+            // Si no tiene 3 partes, dejamos pasar la petición sin autenticar (Spring decidirá si lo rechaza)
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
+            // 2. Ahora sí, es seguro extraer el email
             userEmail = jwtService.extractEmail(jwt);
+
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
                 if (jwtService.isTokenValid(jwt, userDetails.getUsername())) {
@@ -52,10 +66,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            // Ignore invalid tokens and let the security configuration decide if access is
-            // allowed
-            logger.warn("Invalid JWT token: " + e.getMessage());
+            // Cambiamos a DEBUG. Si un token expira o tiene firma inválida, no queremos saturar los logs de producción con WARN.
+            logger.debug("Invalid JWT token: " + e.getMessage());
         }
+
         filterChain.doFilter(request, response);
+    }
+
+    // Método auxiliar para validar que el string parece un JWT real
+    private boolean isWellFormedJwt(String jwt) {
+        if (jwt.isEmpty() || "null".equalsIgnoreCase(jwt) || "undefined".equalsIgnoreCase(jwt)) {
+            return false;
+        }
+        // Un JWT debe tener exactamente 3 partes separadas por 2 puntos (.)
+        return jwt.split("\\.", -1).length == 3;
     }
 }

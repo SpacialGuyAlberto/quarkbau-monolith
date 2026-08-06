@@ -11,6 +11,7 @@ public enum WorkType {
     DUCT_LAYING,
     FIBER_BLOWING,
     SPLICING,
-    RESTORATION
+    RESTORATION,
+    DOCUMENTATION
 }
 

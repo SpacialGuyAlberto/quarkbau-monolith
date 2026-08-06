@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class InventoryIntegrationService {
 
-    @Transactional
+    @Transactional("transactionManager")
     public void consumeMaterial(String sku, Double quantity) {
         // Implementation will be refined as needed, but this enables cross-module calls
         // In a microservices world this would be a Feign client or REST call

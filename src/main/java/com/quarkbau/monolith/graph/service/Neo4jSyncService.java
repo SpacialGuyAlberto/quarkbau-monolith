@@ -15,7 +15,7 @@ public class Neo4jSyncService {
 
     private final SegmentNodeRepository segmentNodeRepository;
 
-    @Transactional
+    @Transactional("transactionManager")
     public void syncSegment(Segment segment) {
         try {
             SegmentNode node = new SegmentNode(
