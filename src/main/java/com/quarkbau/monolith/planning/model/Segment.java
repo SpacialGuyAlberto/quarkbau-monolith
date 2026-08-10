@@ -75,6 +75,15 @@ public class Segment {
     @Column(name = "planned_end_date")
     private LocalDate plannedEndDate;
 
+    @Column(name = "duct_diameter")
+    private Double ductDiameter;
+
+    @Column(name = "start_address")
+    private String startAddress;
+
+    @Column(name = "end_address")
+    private String endAddress;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "custom_fields", columnDefinition = "jsonb")
     private Map<String, Object> customFields = new HashMap<>();

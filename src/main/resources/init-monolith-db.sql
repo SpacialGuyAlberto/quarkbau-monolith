@@ -82,6 +82,9 @@ CREATE TABLE IF NOT EXISTS segments (
     planned_start_date DATE,
     planned_end_date DATE,
     custom_fields JSONB,
+    duct_diameter DOUBLE PRECISION,
+    start_address VARCHAR(255),
+    end_address VARCHAR(255),
     crew_id BIGINT,
     version BIGINT
 );
@@ -179,6 +182,23 @@ CREATE TABLE IF NOT EXISTS evidence (
     user_id BIGINT
 );
 
+
+CREATE TABLE IF NOT EXISTS hazards (
+                                 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                                segment_id serial NOT NULL,
+                                FOREIGN KEY (segment_id) REFERENCES public.segments(id),
+                                reported_by serial references public.users(id),
+                                hazard_type varchar(80),
+                                hazard_severity varchar(80),
+                                latitude double precision,
+                                longitude double precision,
+                                description varchar(500),
+                                photo_evidence_url varchar(500),
+                                status varchar(80),
+                                created_at timestamp default now(),
+                                updated_at timestamp default now()
+
+);
 -- ============================================================
 -- SEED DATA — Development reference data
 -- ============================================================
