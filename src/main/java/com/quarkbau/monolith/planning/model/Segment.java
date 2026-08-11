@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import org.locationtech.jts.geom.LineString;
 
 @Getter
 @Setter
@@ -62,9 +63,8 @@ public class Segment {
     @Column(name = "end_longitude")
     private Double endLongitude;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "geometry", columnDefinition = "jsonb")
-    private List<GeometryPoint> geometry = new ArrayList<>();
+    @Column(name = "geometry", columnDefinition = "geometry(LineString,4326)")
+    private LineString geometry;
 
     @Column(name = "traffic_level")
     private String trafficLevel;
@@ -90,6 +90,11 @@ public class Segment {
 
     @Transient
     private Long projectId;
+
+    @OneToMany(cascade  = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "segment_id")
+    private List<Hazard> hazards = new ArrayList<>();
+
 
     public void setProject(Project project) {
         this.project = project;

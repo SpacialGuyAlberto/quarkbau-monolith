@@ -1,4 +1,5 @@
 -- QuarkBau Monolith Unified Database Initialization
+CREATE EXTENSION IF NOT EXISTS postgis;
 -- Includes Auth, Inventory, and Planning schemas
 
 -- 1. Auth Schema

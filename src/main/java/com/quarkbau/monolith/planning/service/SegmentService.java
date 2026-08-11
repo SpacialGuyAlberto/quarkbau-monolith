@@ -71,4 +71,6 @@ public class  SegmentService {
             return segmentMapper.toDto(saved);
         });
     }
+
+
 }
