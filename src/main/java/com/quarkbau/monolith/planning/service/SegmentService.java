@@ -1,6 +1,7 @@
 package com.quarkbau.monolith.planning.service;
 
 import com.quarkbau.monolith.graph.service.Neo4jSyncService;
+import com.quarkbau.monolith.planning.dto.NearestSegmentDTO;
 import com.quarkbau.monolith.planning.dto.SegmentDTO;
 import com.quarkbau.monolith.planning.dto.mappers.SegmentMapper;
 import com.quarkbau.monolith.planning.model.Project;
@@ -70,6 +71,11 @@ public class  SegmentService {
             }
             return segmentMapper.toDto(saved);
         });
+    }
+
+    public List<NearestSegmentDTO> findNearestSegments(double lat, double lng, double radius) {
+        List<NearestSegmentDTO> nearestSegments = segmentRepository.findNearbySegments(lat, lng, radius);
+        return nearestSegments;
     }
 
 

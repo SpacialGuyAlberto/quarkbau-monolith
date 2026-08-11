@@ -1,5 +1,6 @@
 package com.quarkbau.monolith.planning.dto.mappers;
 
+import com.quarkbau.monolith.planning.dto.NearestSegmentDTO;
 import com.quarkbau.monolith.planning.dto.SegmentDTO;
 import com.quarkbau.monolith.planning.model.Segment;
 import com.quarkbau.monolith.planning.model.GeometryPoint;
@@ -22,6 +23,30 @@ public interface SegmentMapper {
     @Mapping(source = "project.id", target = "projectId")
     @Mapping(source = "assignedCrew.id", target = "assignedCrewId")
     SegmentDTO toDto(Segment segment);
+
+    default NearestSegmentDTO toNearestSegmentDto(Segment segment, Double distanceToUser) {
+        if (segment == null) {
+            return null;
+        }
+
+        // Retornamos una implementación anónima de la interfaz
+        return new NearestSegmentDTO() {
+            @Override
+            public Long getId() {
+                return segment.getId();
+            }
+
+            @Override
+            public String getStreetName() {
+                return segment.getStreetName();
+            }
+
+            @Override
+            public Double getDistanceToUser() {
+                return distanceToUser;
+            }
+        };
+    }
 
     default LineString map(List<GeometryPoint> value) {
         if (value == null || value.isEmpty()) {

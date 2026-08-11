@@ -1,5 +1,6 @@
 package com.quarkbau.monolith.planning.controller;
 
+import com.quarkbau.monolith.planning.dto.NearestSegmentDTO;
 import com.quarkbau.monolith.planning.dto.SegmentDTO;
 import com.quarkbau.monolith.planning.service.SegmentService;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,9 @@ public class SegmentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/segments/nearest")
+    public List<NearestSegmentDTO> findNearestSegments(@RequestParam double lat, @RequestParam double lng, @RequestParam double radius) {
+        return segmentService.findNearestSegments(lat, lng, radius);
+    }
 
 }
