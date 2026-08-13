@@ -43,10 +43,10 @@ public class Hazard {
     @Enumerated(EnumType.STRING)
     private HazardType type;
 
-    @Enumerated(EnumType.STRING)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Enumerated(EnumType.STRING)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @Column(name = "photo_evidence_url")
