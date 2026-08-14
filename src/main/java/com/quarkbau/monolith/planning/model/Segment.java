@@ -63,8 +63,9 @@ public class Segment {
     @Column(name = "end_longitude")
     private Double endLongitude;
 
-    @Column(name = "geometry", columnDefinition = "geometry(LineString,4326)")
-    private LineString geometry;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "geometry", columnDefinition = "jsonb")
+    private List<GeometryPoint> geometry = new ArrayList<>();
 
     @Column(name = "traffic_level")
     private String trafficLevel;
