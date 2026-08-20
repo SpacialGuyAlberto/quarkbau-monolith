@@ -33,4 +33,10 @@ public class Project {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id")
     private Organization organization;
+
+    @Column(name = "latitude")
+    private Double startLatitude;
+
+    @Column(name = "longitude")
+    private Double startLongitude;
 }

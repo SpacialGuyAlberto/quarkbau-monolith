@@ -39,4 +39,7 @@ public class ProjectService {
         return projectRepository.save(mappedProject);
     }
 
+    public Project findById(Long id) {
+        return projectRepository.findById(id).orElse(null);
+    }
 }

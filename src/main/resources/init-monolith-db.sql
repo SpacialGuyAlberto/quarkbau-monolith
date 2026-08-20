@@ -63,7 +63,9 @@ CREATE TABLE IF NOT EXISTS projects (
     description TEXT,
     start_date DATE,
     end_date DATE,
-    organization_id BIGINT
+    organization_id BIGINT,
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION
 );
 
 CREATE TABLE IF NOT EXISTS segments (
