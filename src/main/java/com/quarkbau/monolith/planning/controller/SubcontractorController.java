@@ -15,9 +15,14 @@ public class SubcontractorController {
     @Autowired
     SubcontractorService service;
 
-    @GetMapping("/subcontractors")
-    public List<SubcontractorDTO> getAllSubcontractors() {
-        return service.getAllSubcontractors();
+    @GetMapping("/subcontractors/{organizationId}")
+    public List<SubcontractorDTO> getAllSubcontractors(@PathVariable Long organizationId) {
+        return service.getAllSubcontractors(organizationId);
+    }
+
+    @PostMapping("/subcontractors/{organizationId}")
+    public SubcontractorDTO createSubcontractor(@PathVariable Long organizationId, @RequestBody SubcontractorDTO subcontractorDTO) {
+        return service.createSubcontractor(organizationId, subcontractorDTO);
     }
 
 }

@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface SubcontractorRepository extends JpaRepository<Subcontractor, Long> {
 
     List<Subcontractor> findAll();
+    List<Subcontractor> findByOrganizationId(Long organizationId);
 }
