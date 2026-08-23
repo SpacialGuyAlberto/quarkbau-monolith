@@ -46,7 +46,12 @@ public class ProjectController {
 
     @PostMapping
     public ProjectDTO saveProject(@RequestBody ProjectDTO project) {
-        Project project1 = service.create(project);
-        return mapper.toDto(project1);
+       service.create(project);
+       return ProjectDTO.builder().build();
+    }
+
+    @PutMapping("/{id}")
+    public ProjectDTO updateProject(@PathVariable Long id, @RequestBody ProjectDTO project) {
+        return service.update(project);
     }
 }

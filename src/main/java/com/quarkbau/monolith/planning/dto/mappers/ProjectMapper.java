@@ -16,10 +16,15 @@ public interface ProjectMapper {
     @Mapping(source = "organization.id", target = "organizationId")
     @Mapping(source = "organization.name", target = "organizationName")
     @Mapping(source = "segments", target = "segmentIds", qualifiedByName = "mapSegmentsToIds")
+    @Mapping(source = "startDate", target = "startDate")
+    @Mapping(source = "endDate", target = "endDate")
+    @Mapping(source= "lifecycleTodo", target = "lifecycleTodo")
+    @Mapping(source= "lifecycleDone", target = "lifecycleDone")
     ProjectDTO toDto(Project project);
 
     @Mapping(source = "organizationId", target = "organization.id")
     @Mapping(target = "segments", ignore = true) // Importante para evitar el error "Unknown property segments"
+    @Mapping(source= "lifecycleDone", target = "lifecycleDone")
     Project toEntity(ProjectDTO projectDto);
 
     @Named("mapSegmentsToIds")

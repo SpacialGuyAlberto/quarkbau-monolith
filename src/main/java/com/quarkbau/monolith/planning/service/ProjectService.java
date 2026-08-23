@@ -19,14 +19,23 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public Project create(ProjectDTO project) {
+    public ProjectDTO create(ProjectDTO project) {
         Project newProject = new Project();
         newProject.setName(project.getName());
         newProject.setDescription(project.getDescription());
         newProject.setStartDate(project.getStartDate());
         newProject.setEndDate(project.getEndDate());
+        newProject.setGeometry(project.getGeometry());
+        newProject.setLifecycleTodo(project.getLifecycleTodo());
+        newProject.setLifecycleDone(project.getLifecycleDone());
+        projectRepository.save(newProject);
 
-        return projectRepository.save(newProject);
+        return projectMapper.toDto(newProject);
+    }
+
+    public ProjectDTO edit(ProjectDTO project) {
+        Project mappedProject = projectMapper.toEntity(project);
+        return projectMapper.toDto(projectRepository.save(mappedProject));
     }
 
     public void delete(ProjectDTO project) {
@@ -34,9 +43,10 @@ public class ProjectService {
         projectRepository.delete(mappedProject);
     }
 
-    public Project update(ProjectDTO project) {
+    public ProjectDTO update(ProjectDTO project) {
         Project mappedProject = projectMapper.toEntity(project);
-        return projectRepository.save(mappedProject);
+        projectRepository.save(mappedProject);
+        return projectMapper.toDto(mappedProject);
     }
 
     public Project findById(Long id) {
