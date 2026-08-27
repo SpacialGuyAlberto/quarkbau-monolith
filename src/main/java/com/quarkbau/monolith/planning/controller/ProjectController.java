@@ -18,6 +18,7 @@ public class ProjectController {
     private final ProjectRepository repository;
     private final ProjectService service;
     private final ProjectMapper mapper;
+    private final com.quarkbau.monolith.planning.service.SmartSegmentRecognitionService smartSegmentRecognitionService;
 
     @GetMapping
     public List<Project> getAllProjects() {
@@ -46,12 +47,18 @@ public class ProjectController {
 
     @PostMapping
     public ProjectDTO saveProject(@RequestBody ProjectDTO project) {
-       service.create(project);
-       return ProjectDTO.builder().build();
+       return service.create(project);
     }
 
     @PutMapping("/{id}")
     public ProjectDTO updateProject(@PathVariable Long id, @RequestBody ProjectDTO project) {
         return service.update(project);
+    }
+
+    @PostMapping("/{id}/planauskunft/process")
+    public List<com.quarkbau.monolith.planning.model.Segment> processPlanauskunft(
+            @PathVariable Long id,
+            @RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        return smartSegmentRecognitionService.processPlanauskunft(id, file);
     }
 }
