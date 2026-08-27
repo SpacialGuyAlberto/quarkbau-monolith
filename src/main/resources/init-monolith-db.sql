@@ -29,6 +29,14 @@ CREATE TABLE IF NOT EXISTS suppliers (
     updated_at TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS hueps (
+                                     id BIGSERIAL PRIMARY KEY,
+                                     streetAddress TEXT NOT NULL,
+                                     houseNumber TEXT NOT NULL,
+                                     installation_location TEXT NOT NULL,
+                                     status TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS materials (
     id BIGSERIAL PRIMARY KEY,
     sku VARCHAR(255) UNIQUE NOT NULL,
@@ -42,6 +50,40 @@ CREATE TABLE IF NOT EXISTS materials (
     reorder_mode VARCHAR(50),
     created_at TIMESTAMP,
     updated_at TIMESTAMP
+);
+
+create table subcontractors
+(
+    id                     bigserial
+        primary key,
+    average_time_per_meter double precision,
+    contact_person         varchar(255),
+    defect_rate            double precision,
+    email                  varchar(255),
+    name                   varchar(255) not null,
+    phone                  varchar(255),
+    rating                 double precision,
+    rework_frequency       double precision,
+    status                 varchar(255)
+        constraint subcontractors_status_check
+            check ((status)::text = ANY
+                   ((ARRAY ['PREFERRED'::character varying, 'ACTIVE'::character varying, 'BLOCKED'::character varying])::text[])),
+    organization_id        bigint
+        constraint fknnnfgbfo3vqlxnst1bsd68bpw
+            references organizations
+);
+
+alter table subcontractors
+    owner to quarkbau;
+
+
+CREATE TABLE IF NOT EXISTS Rohrverband (
+                                           id BIGSERIAL PRIMARY KEY,
+                                           type TEXT NOT NULL,
+                                           color_code TEXT NOT NULL,
+                                           passed_pressure_test BOOLEAN NOT NULL,
+                                           segment BIGINT REFERENCES segments(id)
+
 );
 
 CREATE TABLE IF NOT EXISTS machines (

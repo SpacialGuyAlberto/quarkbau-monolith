@@ -96,6 +96,9 @@ public class Segment {
     @JoinColumn(name = "segment_id")
     private List<Hazard> hazards = new ArrayList<>();
 
+    @OneToMany(cascade  = CascadeType.ALL, orphanRemoval = true)
+    private List<Rohrverband> rohrverband = new ArrayList<>();
+
 
     public void setProject(Project project) {
         this.project = project;
