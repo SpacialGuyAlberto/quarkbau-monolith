@@ -27,5 +27,5 @@ public class Huep {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "netzverteiler_id")
-    private NetzVerteiler nvt; // A qué armario está conectado este HÜP
+    private Netzverteiler nvt; // A qué armario está conectado este HÜP
 }

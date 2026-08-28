@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "netzverteiler")
 @Data
-public class NetzVerteiler {
+public class Netzverteiler {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +19,12 @@ public class NetzVerteiler {
     private Double latitude;
     private Double longitude;
 
-    @OneToMany(mappedBy = "netzVerteiler")
-    private List<Muffe> hueps;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pop_id")
+    private Pop pop;
+
+
+    @OneToMany(mappedBy = "nvt")
+    private List<Huep> hueps;
 
 }

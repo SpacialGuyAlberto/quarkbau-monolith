@@ -21,5 +21,5 @@ public class Pop {
     private Integer maxCapacityPorts; // Puertos totales disponibles
 
     @OneToMany(mappedBy = "pop", cascade = CascadeType.ALL)
-    private List<NetzVerteiler> nvts;
+    private List<Netzverteiler> nvts;
 }
