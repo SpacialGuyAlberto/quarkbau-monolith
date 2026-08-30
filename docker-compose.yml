@@ -51,18 +51,18 @@ services:
       timeout: 10s
       retries: 5
 
-  sam3:
-    build:
-      context: ./sam3-service
-      dockerfile: Dockerfile
-    container_name: quarkbau-monolith-sam3
-    ports:
-      - "8000:8000"
-    environment:
-      # You can pass additional environment variables for GPU usage or checkpoints here
-      - PYTHONUNBUFFERED=1
-    volumes:
-      - ./sam3-service/sam_vit_b_01ec64.pth:/app/sam_vit_b_01ec64.pth
+#  sam3:
+#    build:
+#      context: ./sam3-service
+#      dockerfile: Dockerfile
+#    container_name: quarkbau-monolith-sam3
+#    ports:
+#      - "8000:8000"
+#    environment:
+#      # You can pass additional environment variables for GPU usage or checkpoints here
+#      - PYTHONUNBUFFERED=1
+#    volumes:
+#      - ./sam3-service/sam_vit_b_01ec64.pth:/app/sam_vit_b_01ec64.pth
 
 volumes:
   db_data:
