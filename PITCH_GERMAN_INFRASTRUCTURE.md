@@ -83,7 +83,13 @@ No empieces enumerando las características de tu software. Empieza investigando
 * *"¿Qué impacto tendría en vuestras negociaciones si, en lugar de llevar un PDF al alcalde, le pusierais unas gafas de Realidad Virtual para que 'camine' por su ciudad y vea la red terminada antes de excavar nada?"*
 * *"¿Cuánto dinero perdéis al año en 'Bauschäden' (daños a tuberías de gas/agua) porque el obrero excava a ciegas? ¿Cambiaría algo si la cuadrilla pudiera 'ver' debajo del asfalto con Realidad Aumentada antes de meter la pala?"*
 * *"¿Cuántas horas de coche pierde un Bauleiter a la semana yendo a las obras solo para resolver dudas en cruces de tubos complejos (Muffen)? ¿No sería más rápido que hiciera una 'inspección virtual' en 3D desde su tablet o gafas?"*
+* *"Cuando el Bauleiter visita una calle ya asfaltada, ¿cómo verifica que la subcontrata excavó exactamente donde decía el plano? ¿Qué pasaría si usara Realidad Aumentada (AR) para proyectar las líneas del plano sobre la acera real y validar los metros al instante?"*
+* *"Si hay que desviar un tramo en el terreno, ¿cómo redibuja el Bauleiter la ruta? ¿No sería ideal que pudiera 'trazar' la nueva línea en Realidad Aumentada directamente sobre la acera y que ese Redlining se guardara como as-built?"*
+* *"Las subcontratas rotan mucho de personal y a veces los operarios no saben ensamblar un nodo complejo. ¿Os interesaría que el obrero inexperto reciba instrucciones paso a paso proyectadas en 3D sobre sus manos mediante gafas AR?"*
+* *"Pensando en el futuro: cuando haya una avería dentro de 5 años, ¿cuántos agujeros de prueba (Suchschächte) hacéis para encontrar un empalme enterrado? Con nuestro sistema, el técnico de mantenimiento vuelve a la calle, se pone las gafas AR y 've' exactamente dónde quedó enterrada la fibra."*
 * *"Como Projektleiter, ¿te frustra depender de planos muertos? ¿Te gustaría tener un 'Gemelo Digital' en tu oficina, ponerte unas gafas VR y volar sobre tu infraestructura para auditar el progreso sin salir del despacho?"*
+* *"¿Qué pasaría si el obrero no tuviera que teclear nada en el móvil? ¿Os serviría equiparlos con tecnología 'Edge AI' para que reporten avances solo con comandos de voz (ej. 'Zanja completada') mientras siguen trabajando con las manos libres?"*
+* *"Cuando el encargado llama por WhatsApp al Bauleiter desde la zanja... ese video se pierde. ¿Qué pasaría si tuvierais una 'Videollamada Inteligente' donde una IA de visión analice la zanja en tiempo real a través de la cámara y documente automáticamente los materiales instalados?"*
 
 *(Escucha atentamente sus respuestas. Cuando te cuenten sus frustraciones -ya sea por culpa de Excels desactualizados, grupos de WhatsApp caóticos o softwares antiguos-, es cuando presentas el ecosistema QuarkBau y HorizonVision como la solución a esos problemas exactos).*
 
@@ -93,9 +99,13 @@ Esta es la clave para no sonar desesperado. Diles algo como:
 
 Al decir esto, creas escasez y dejas claro que tú también los estás evaluando a ellos para ver si encajan.
 
-### 3. El Diferenciador Visionario: Realidad y Visión Espacial (HorizonVision)
-Una vez hayan respondido a las preguntas anteriores admitiendo que los *Bauschäden*, los permisos y los viajes del Bauleiter son un problema, sueltas tu gran diferenciador:
-> *"Justamente para solucionar eso, además de la gestión en móvil/web, nuestro ecosistema integra **HorizonVision** (AR/VR). Esto no es un juguete, es prevención de riesgos: el obrero usa AR para evitar romper tubos de gas; el Bauleiter audita nodos 3D remotamente; el Projektleiter tiene un gemelo digital en su oficina; y el Ayuntamiento otorga permisos más rápido al poder pasear virtualmente por las calles planificadas."*
+### 3. El Diferenciador Visionario: HorizonVision y Edge AI (Inteligencia Artificial en campo)
+Una vez hayan respondido a las preguntas admitiendo los problemas operativos, sueltas tu gran diferenciador tecnológico:
+> *"Justamente para solucionar eso, nuestro ecosistema integra **HorizonVision (AR/VR) y Edge AI**. No son juguetes, son herramientas de eficiencia extrema:
+> 1. **Prevención y Mantenimiento (AR):** El obrero usa Realidad Aumentada para 'ver' tubos antes de excavar. Y años después, los técnicos la usan para encontrar fibra enterrada al centímetro sin romper asfalto a ciegas.
+> 2. **Supervisión y Asistencia (AR/VR):** El Bauleiter hace auditorías en AR, proyecta tutoriales 3D a obreros inexpertos, y el Projektleiter vuela sobre el Gemelo Digital desde la oficina.
+> 3. **Manos Libres (Edge AI):** Reconocimiento de voz integrado para que los obreros documenten hitos sin soltar la pala.
+> 4. **Smart Videoconference:** Cuando la cuadrilla llama al Bauleiter por vídeo, la IA de Visión Computacional analiza el streaming en tiempo real y guarda los datos de la obra automáticamente."*
 
 ### 4. Enfócate en el ROI (Retorno de Inversión)
 Si mencionan el coste del software, llévalo al terreno de la obra física:
@@ -106,3 +116,17 @@ Si mencionan el coste del software, llévalo al terreno de la obra física:
 * **No te disculpes** si algo aún no está 100% programado. Di: *"Esa característica está en el Roadmap para el próximo trimestre, pero la estructura base ya está preparada para soportarlo"* (aquí puedes enseñarles el plan de implementación que armamos).
 * Habla de **"nuestro ecosistema"** o **"nuestra arquitectura"** en lugar de "mi app". Transmite la madurez de un sistema completo (Backend, Mobile App, Analytics, VR).
 * ¡Ve a por todas! Tienes un producto técnica y conceptualmente muy superior a las hojas de cálculo y mapas PDF que suele usar el sector.
+
+### 6. Estrategia de Precios (Cómo responder a "¿Cuánto cuesta?")
+Si en la primera reunión te preguntan directamente por el precio, **nunca des una cifra cerrada mensual**. Al ser un ecosistema tan avanzado (IA, VR, ERP), si das un precio genérico te compararán con apps baratas de checklists. Tu estrategia es vender un **Piloto**.
+
+Usa estos 3 pasos para responder:
+
+**1. Desvía hacia el modelo "Pilotprojekt" (Socio Estratégico):**
+> *"Como os comenté, nuestro objetivo hoy no es venderos licencias estándar. Buscamos un **Pilotkunde** (Cliente Piloto). La propuesta es ejecutar un **Pilotprojekt** en una de vuestras obras actuales durante 3 meses. Esto tiene un coste de inversión fijo inicial (Setup e Integración), y a cambio obtenéis el despliegue total de la tecnología para auditar el ahorro real antes de escalar a toda la empresa."*
+
+**2. Ancla el precio al Dolor (Value-Based Pricing):**
+> *"El modelo de licenciamiento final a escala dependerá del volumen de cuadrillas. Pero para que os hagáis una idea del valor: ¿Cuánto os cuesta arreglar un tubo de gas roto por excavar a ciegas (Bauschaden)? ¿5.000€? ¿10.000€? Si el sistema, gracias a la AR, os evita un solo Bauschaden al mes o recupera un 5% de facturación perdida por falta de firmas, la plataforma se paga sola con creces."*
+
+**3. El Cierre (Call to Action):**
+> *"Si vemos que hay encaje tecnológico hoy, el siguiente paso no es firmar un gran contrato. Os propongo que me paséis los planos de una obra pequeña que tengáis activa. Nosotros digitalizamos esa zona, hacemos una demostración real en el terreno con vuestro equipo, y ahí acordamos el presupuesto exacto para el Piloto."*
