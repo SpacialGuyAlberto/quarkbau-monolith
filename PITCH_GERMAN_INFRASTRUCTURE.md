@@ -65,9 +65,14 @@ No empieces enumerando las características de tu software. Empieza investigando
 * *"¿Qué sistema o software estáis usando actualmente para gestionar el avance diario de las cuadrillas en la calle?"*
 * *"¿Cuánto tiempo pierde vuestro equipo de oficina persiguiendo a los encargados para que envíen las fotos y firmas (Nachweise) de los trabajos terminados?"*
 
-**Sobre modificaciones y calidad de datos:**
+**Sobre modificaciones, incidencias y calidad de datos:**
 * *"Cuando una subcontrata se encuentra un obstáculo imprevisto y tiene que desviar la zanja 50 metros... ¿cómo os enteráis en la oficina central? ¿Se documenta al instante o semanas después?"*
 * *"¿Os ha pasado alguna vez que una cuadrilla os envía una foto de una zanja cerrada, pero al no tener geolocalización (GPS) estricta, no sabéis seguro si es de esa calle o es una foto reciclada?"*
+* *"¿Tienen actualmente un software centralizado para reportar incidencias en tiempo real?"*
+* *"¿Cómo aseguran que las cuadrillas graben pruebas con foto ANTES de realizar los trabajos?"*
+
+**Sobre Seguridad y Realidad Aumentada (Gafas AR):**
+* *"¿Cómo gestionan el cumplimiento de normativas medioambientales (ej. Gewässerschutz) o las advertencias de seguridad y vallado? Con nuestras gafas AR, los operarios pueden ver estas advertencias in-situ proyectadas sobre el terreno."*
 
 **Sobre control de costes y logística:**
 * *"¿Cómo validáis a final de mes que los metros lineales que os factura la subcontrata de asfalto coinciden al 100% con lo que realmente han ejecutado?"*

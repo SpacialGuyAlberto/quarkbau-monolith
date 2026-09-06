@@ -29,7 +29,9 @@ public class SmartSegmentRecognitionService {
     private final ProjectService projectService;
     private final SegmentRepository segmentRepository;
 
-    public List<Segment> processPlanauskunft(Long projectId, MultipartFile file) {
+    public List<Segment> processPlanauskunft(Long projectId, MultipartFile file, 
+                                             double scale, double rotation, double x, double y,
+                                             double centerLat, double centerLng) {
         Project project = projectService.findById(projectId);
         if (project == null) {
             throw new IllegalArgumentException("Project not found: " + projectId);
@@ -43,7 +45,7 @@ public class SmartSegmentRecognitionService {
         if (isDeterministic) {
             generatedSegments = processVectorData(project, file);
         } else {
-            generatedSegments = processRasterDataWithMLAndOCR(project, file);
+            generatedSegments = processRasterDataWithMLAndOCR(project, file, scale, rotation, x, y, centerLat, centerLng);
         }
 
         return segmentRepository.saveAll(generatedSegments);
@@ -66,7 +68,7 @@ public class SmartSegmentRecognitionService {
         
         // Simulating DXF/DWG coordinate extraction (requires external CAD parser library like Kabeja/AutoDesk API)
         // For DXF/DWG we fallback to the mock topology generator until CAD libraries are added to pom.xml
-        return generateFittedSegments(project, "AutoCAD Vector Extraction (Simulation)");
+        return generateFittedSegments(project, "AutoCAD Vector Extraction (Simulation)", 52.5200, 13.4050);
     }
 
     private List<Segment> parseGeoJson(Project project, MultipartFile file) throws Exception {
@@ -125,7 +127,9 @@ public class SmartSegmentRecognitionService {
         return extractedSegments;
     }
 
-    private List<Segment> processRasterDataWithMLAndOCR(Project project, MultipartFile file) {
+    private List<Segment> processRasterDataWithMLAndOCR(Project project, MultipartFile file,
+                                                        double scale, double rotation, double x, double y,
+                                                        double centerLat, double centerLng) {
         log.info("Processing raster image with SAM 3 CV Model from {}", file.getOriginalFilename());
         
         List<Segment> extractedSegments = new ArrayList<>();
@@ -179,9 +183,27 @@ public class SmartSegmentRecognitionService {
                                 double relX = pt.get(0).asDouble();
                                 double relY = pt.get(1).asDouble();
                                 
-                                // Transformación Afín simulada (escala de ~200 metros)
-                                double lat = baseLat + (relY * 0.0018); 
-                                double lng = baseLng + (relX * 0.0018 / Math.cos(Math.toRadians(baseLat)));
+                                // Apply Affine Transform from CSS: scale, rotate, translate
+                                double rad = Math.toRadians(rotation);
+                                double rotX = relX * Math.cos(rad) - relY * Math.sin(rad);
+                                double rotY = relX * Math.sin(rad) + relY * Math.cos(rad);
+                                
+                                // Assume rendered image size is around 800px base
+                                double imgWidth = 800.0;
+                                double imgHeight = 800.0;
+                                
+                                double mapX = x + (rotX * imgWidth * scale);
+                                double mapY = y + (rotY * imgHeight * scale);
+                                
+                                // Convert map pixels (at zoom 18) to Lat/Lng
+                                // At zoom 18, the world is 256 * 2^18 = 67,108,864 pixels wide/high.
+                                double pixelsPerWorld = 67108864.0;
+                                double degreesPerPixelLng = 360.0 / pixelsPerWorld;
+                                double degreesPerPixelLat = degreesPerPixelLng * Math.cos(Math.toRadians(centerLat));
+                                
+                                double lat = centerLat - (mapY * degreesPerPixelLat); 
+                                double lng = centerLng + (mapX * degreesPerPixelLng);
+                                
                                 segmentGeom.add(new GeometryPoint(lat, lng, 0.0));
                             }
 
@@ -216,20 +238,20 @@ public class SmartSegmentRecognitionService {
         }
 
         // Simulating Computer Vision pipeline if Python service is down
-        return generateFittedSegments(project, "OCR / ML Detection (Simulator)");
+        return generateFittedSegments(project, "OCR / ML Detection (Simulator)", centerLat, centerLng);
     }
 
-    private List<Segment> generateFittedSegments(Project project, String source) {
+    private List<Segment> generateFittedSegments(Project project, String source, double centerLat, double centerLng) {
         List<Segment> newSegments = new ArrayList<>();
         List<GeometryPoint> projectBounds = project.getGeometry();
 
-        // Tomamos el centro del polígono del proyecto (o dp central)
-        double baseLat = 52.5200; // Default to Berlin
-        double baseLng = 13.4050;
+        // Tomamos el centro del polígono del proyecto, si existe, si no, usamos el map center de la vista
+        double baseLat = centerLat; 
+        double baseLng = centerLng;
         
         if (projectBounds != null && !projectBounds.isEmpty()) {
-            baseLat = projectBounds.stream().mapToDouble(GeometryPoint::getLat).average().orElse(52.5200);
-            baseLng = projectBounds.stream().mapToDouble(GeometryPoint::getLng).average().orElse(13.4050);
+            baseLat = projectBounds.stream().mapToDouble(GeometryPoint::getLat).average().orElse(centerLat);
+            baseLng = projectBounds.stream().mapToDouble(GeometryPoint::getLng).average().orElse(centerLng);
         }
 
         // Simulamos la extracción de N segmentos encontrados en el plano (ej. entre 8 y 25 segmentos)

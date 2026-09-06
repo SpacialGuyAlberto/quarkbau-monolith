@@ -58,7 +58,13 @@ public class ProjectController {
     @PostMapping("/{id}/planauskunft/process")
     public List<com.quarkbau.monolith.planning.model.Segment> processPlanauskunft(
             @PathVariable Long id,
-            @RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
-        return smartSegmentRecognitionService.processPlanauskunft(id, file);
+            @RequestParam("file") org.springframework.web.multipart.MultipartFile file,
+            @RequestParam(value = "scale", defaultValue = "1.0") double scale,
+            @RequestParam(value = "rotation", defaultValue = "0.0") double rotation,
+            @RequestParam(value = "x", defaultValue = "0.0") double x,
+            @RequestParam(value = "y", defaultValue = "0.0") double y,
+            @RequestParam(value = "centerLat", defaultValue = "52.5200") double centerLat,
+            @RequestParam(value = "centerLng", defaultValue = "13.4050") double centerLng) {
+        return smartSegmentRecognitionService.processPlanauskunft(id, file, scale, rotation, x, y, centerLat, centerLng);
     }
 }
