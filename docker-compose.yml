@@ -58,11 +58,13 @@ services:
     container_name: quarkbau-monolith-sam3
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
-      # You can pass additional environment variables for GPU usage or checkpoints here
       - PYTHONUNBUFFERED=1
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     volumes:
-      - ./sam3-service/sam_vit_b_01ec64.pth:/app/sam_vit_b_01ec64.pth
+      - ./sam3-service/planesam_efficient_b.pth:/app/planesam_efficient_b.pth
 
 volumes:
   db_data:

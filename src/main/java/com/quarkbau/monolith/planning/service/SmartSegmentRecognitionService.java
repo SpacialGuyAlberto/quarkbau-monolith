@@ -157,9 +157,9 @@ public class SmartSegmentRecognitionService {
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 JsonNode root = objectMapper.readTree(response.getBody());
-                JsonNode lines = root.path("lines");
+                JsonNode segmentsNode = root.path("segments");
                 
-                if (lines.isArray()) {
+                if (segmentsNode.isArray()) {
                     List<GeometryPoint> projectBounds = project.getGeometry();
                     double baseLat = 52.5200;
                     double baseLng = 13.4050;
@@ -169,11 +169,12 @@ public class SmartSegmentRecognitionService {
                     }
 
                     int segmentCount = 1;
-                    for (JsonNode line : lines) {
-                        JsonNode points = line.path("points");
-                        String type = line.path("type").asText("TRENCHING");
-                        double confidence = line.path("confidence").asDouble(0.9);
-                        String source = line.path("source").asText("SAM 3 Vision");
+                    for (JsonNode segmentNode : segmentsNode) {
+                        JsonNode points = segmentNode.path("points");
+                        String geometryType = segmentNode.path("geometry_type").asText("LINE");
+                        String type = segmentNode.path("type").asText("TRENCHING");
+                        double confidence = segmentNode.path("confidence").asDouble(0.9);
+                        String source = segmentNode.path("source").asText("PlaneSAM");
 
                         if (points.isArray() && points.size() >= 2) {
                             List<GeometryPoint> segmentGeom = new ArrayList<>();
@@ -196,7 +197,6 @@ public class SmartSegmentRecognitionService {
                                 double mapY = y + (rotY * imgHeight * scale);
                                 
                                 // Convert map pixels (at zoom 18) to Lat/Lng
-                                // At zoom 18, the world is 256 * 2^18 = 67,108,864 pixels wide/high.
                                 double pixelsPerWorld = 67108864.0;
                                 double degreesPerPixelLng = 360.0 / pixelsPerWorld;
                                 double degreesPerPixelLat = degreesPerPixelLng * Math.cos(Math.toRadians(centerLat));
@@ -210,7 +210,15 @@ public class SmartSegmentRecognitionService {
                             Segment s = new Segment();
                             s.setProject(project);
                             s.setWorkType(WorkType.valueOf(type));
-                            s.setStreetName("SAM 3 Extracted " + segmentCount++);
+                            
+                            if (geometryType.equals("PLANE")) {
+                                s.setStreetName("PlaneSAM Extracted Plane " + segmentCount++);
+                                s.getCustomFields().put("is_plane", true);
+                            } else {
+                                s.setStreetName("PlaneSAM Extracted Line " + segmentCount++);
+                                s.getCustomFields().put("is_plane", false);
+                            }
+                            
                             s.setStreetType("Unknown");
                             s.setDuctDiameter(type.equals("TRENCHING") ? 110.0 : 50.0);
                             s.setPlannedStartDate(LocalDate.now().plusDays(5));
@@ -225,7 +233,17 @@ public class SmartSegmentRecognitionService {
                             s.setStartLongitude(start.getLng());
                             s.setEndLatitude(end.getLat());
                             s.setEndLongitude(end.getLng());
-                            s.setLength(calculateDistance(start, end));
+                            
+                            if (geometryType.equals("PLANE")) {
+                                // For a plane (polygon), length isn't purely start-to-end, but we compute perimeter
+                                double perimeter = 0;
+                                for (int i = 0; i < segmentGeom.size() - 1; i++) {
+                                    perimeter += calculateDistance(segmentGeom.get(i), segmentGeom.get(i+1));
+                                }
+                                s.setLength(perimeter);
+                            } else {
+                                s.setLength(calculateDistance(start, end));
+                            }
 
                             extractedSegments.add(s);
                         }
