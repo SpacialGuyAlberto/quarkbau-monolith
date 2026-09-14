@@ -5,6 +5,7 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 -- 1. Auth Schema
 CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
+    employee_id BIGSERIAL REFERENCES employees(id),
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(255),
@@ -14,6 +15,17 @@ CREATE TABLE IF NOT EXISTS users (
     organization_id BIGINT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS employees (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    role VARCHAR(50),
+    enabled BOOLEAN DEFAULT TRUE,
+    organization_id BIGINT
 );
 
 -- 2. Inventory Schema

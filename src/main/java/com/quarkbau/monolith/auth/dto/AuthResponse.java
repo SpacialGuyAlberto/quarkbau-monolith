@@ -1,6 +1,7 @@
 package com.quarkbau.monolith.auth.dto;
 
 import com.quarkbau.monolith.auth.model.UserRole;
+import com.quarkbau.monolith.planning.model.CompanyRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ public class AuthResponse {
     private String email;
     private String firstName;
     private String lastName;
-    private UserRole role;
+    private CompanyRole companyRole;
     private Long userId;
     private Long organizationId;
 }

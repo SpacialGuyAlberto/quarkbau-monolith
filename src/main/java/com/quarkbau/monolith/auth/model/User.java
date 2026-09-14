@@ -1,5 +1,6 @@
 package com.quarkbau.monolith.auth.model;
 
+import com.quarkbau.monolith.planning.model.Employee;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -14,6 +15,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
     @Column(nullable = false, unique = true)
     private String email;
