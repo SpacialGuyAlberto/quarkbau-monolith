@@ -9,7 +9,6 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ./src/main/resources/init-monolith-db.sql:/docker-entrypoint-initdb.d/init-monolith-db.sql
       - db_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U quarkbau -d quarkbau_monolith" ]
