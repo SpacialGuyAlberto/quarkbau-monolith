@@ -31,7 +31,7 @@ public class  SegmentService {
 
     @Transactional(value = "transactionManager", readOnly = true) // <-- FUERZA ESTO
     public List<SegmentDTO> findProjectSegments(Long projectId) {
-        return segmentRepository.findByProject_Id(projectId).stream()
+        return segmentRepository.findByProjectId(projectId).stream()
                 .map(segmentMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -41,7 +41,6 @@ public class  SegmentService {
     public Optional<SegmentDTO> createSegment(Long projectId, SegmentDTO segmentDTO) {
         return projectRepository.findById(projectId).map(project -> {
             Segment segment = segmentMapper.toEntity(segmentDTO);
-            segment.setProject(project);
             Segment saved = segmentRepository.save(segment);
             neo4jSyncService.syncSegment(saved);
             return segmentMapper.toDto(saved);

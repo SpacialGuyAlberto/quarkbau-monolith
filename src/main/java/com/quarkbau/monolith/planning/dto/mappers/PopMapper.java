@@ -10,20 +10,12 @@ import org.mapstruct.Named;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {NetzverteilerMapper.class}, unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE)
 public interface PopMapper {
 
-    @Mapping(source = "nvts", target = "nvtIds", qualifiedByName = "mapNvtsToIds")
+    @Mapping(source = "cluster.id", target = "clusterId")
     PopDTO toDto(Pop pop);
 
-    @Mapping(target = "nvts", ignore = true)
+    @Mapping(source = "clusterId", target = "cluster.id")
     Pop toEntity(PopDTO popDto);
-
-    @Named("mapNvtsToIds")
-    default List<Long> mapNvtsToIds(List<Netzverteiler> nvts) {
-        if (nvts == null) return null;
-        return nvts.stream()
-                .map(Netzverteiler::getId)
-                .collect(Collectors.toList());
-    }
 }

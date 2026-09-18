@@ -99,7 +99,6 @@ public class SmartSegmentRecognitionService {
                     }
                     
                     Segment s = new Segment();
-                    s.setProject(project);
                     s.setWorkType(WorkType.TRENCHING);
                     s.setStreetName("Extracted Segment " + segmentCount++);
                     s.setStreetType("Unknown");
@@ -208,7 +207,6 @@ public class SmartSegmentRecognitionService {
                             }
 
                             Segment s = new Segment();
-                            s.setProject(project);
                             s.setWorkType(WorkType.valueOf(type));
                             
                             if (geometryType.equals("PLANE")) {
@@ -281,7 +279,6 @@ public class SmartSegmentRecognitionService {
         
         for (int i = 0; i < numSegments; i++) {
             Segment s = new Segment();
-            s.setProject(project);
             
             // Simular lectura de topología: conectar al nodo central o ramificar desde un nodo existente
             GeometryPoint startNode = extractedNodes.get((int)(Math.random() * extractedNodes.size()));

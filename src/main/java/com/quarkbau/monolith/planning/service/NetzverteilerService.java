@@ -30,6 +30,11 @@ public class NetzverteilerService {
 
     public NetzverteilerDTO save(NetzverteilerDTO dto) {
         Netzverteiler entity = mapper.toEntity(dto);
+        if (dto.getPopId() != null) {
+            com.quarkbau.monolith.planning.model.Pop pop = new com.quarkbau.monolith.planning.model.Pop();
+            pop.setId(dto.getPopId());
+            entity.setPop(pop);
+        }
         return mapper.toDto(repository.save(entity));
     }
 

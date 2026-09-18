@@ -30,6 +30,11 @@ public class PopService {
 
     public PopDTO save(PopDTO dto) {
         Pop entity = mapper.toEntity(dto);
+        if (dto.getClusterId() != null) {
+            com.quarkbau.monolith.planning.model.Cluster cluster = new com.quarkbau.monolith.planning.model.Cluster();
+            cluster.setId(dto.getClusterId());
+            entity.setCluster(cluster);
+        }
         return mapper.toDto(repository.save(entity));
     }
 

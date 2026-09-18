@@ -16,11 +16,15 @@ import java.util.ArrayList;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SegmentMapper {
 
-    @Mapping(source = "projectId", target = "project.id")
+    @Mapping(source = "startNvtId", target = "startNvt.id")
+    @Mapping(source = "endNvtId", target = "endNvt.id")
+    @Mapping(source = "connectedPopId", target = "connectedPop.id")
     @Mapping(source = "assignedCrewId", target = "assignedCrew.id")
     Segment toEntity(SegmentDTO segmentDTO);
 
-    @Mapping(source = "project.id", target = "projectId")
+    @Mapping(source = "startNvt.id", target = "startNvtId")
+    @Mapping(source = "endNvt.id", target = "endNvtId")
+    @Mapping(source = "connectedPop.id", target = "connectedPopId")
     @Mapping(source = "assignedCrew.id", target = "assignedCrewId")
     SegmentDTO toDto(Segment segment);
 

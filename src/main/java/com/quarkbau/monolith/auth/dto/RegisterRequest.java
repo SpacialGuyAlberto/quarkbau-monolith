@@ -20,6 +20,6 @@ public class RegisterRequest {
     private String lastName;
     private UserRole role;
     private CompanyRole companyRole;
-    private BigInteger subcontractorId;
+    private Long subcontractorId;
     private Long organizationId;
 }

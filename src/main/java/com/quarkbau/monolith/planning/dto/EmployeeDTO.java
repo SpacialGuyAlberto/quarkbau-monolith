@@ -22,5 +22,5 @@ public class EmployeeDTO {
     private CompanyRole role;
     private Boolean enabled;
     private Long organizationId;
-    private BigInteger subcontractorId;
+    private Long subcontractorId;
 }

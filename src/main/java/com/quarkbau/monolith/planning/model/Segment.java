@@ -25,8 +25,16 @@ public class Segment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", nullable = false)
-    private Project project;
+    @JoinColumn(name = "start_nvt_id")
+    private Netzverteiler startNvt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "end_nvt_id")
+    private Netzverteiler endNvt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "connected_pop_id")
+    private Pop connectedPop;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "crew_id")
@@ -89,9 +97,6 @@ public class Segment {
     @Column(name = "custom_fields", columnDefinition = "jsonb")
     private Map<String, Object> customFields = new HashMap<>();
 
-    @Transient
-    private Long projectId;
-
     @OneToMany(cascade  = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "segment_id")
     private List<Hazard> hazards = new ArrayList<>();
@@ -99,18 +104,33 @@ public class Segment {
     @OneToMany(cascade  = CascadeType.ALL, orphanRemoval = true)
     private List<Rohrverband> rohrverband = new ArrayList<>();
 
+    @Transient
+    private Long startNvtId;
 
-    public void setProject(Project project) {
-        this.project = project;
-        if (project != null) {
-            this.projectId = project.getId();
+    @Transient
+    private Long endNvtId;
+
+    @Transient
+    private Long connectedPopId;
+
+    public Long getStartNvtId() {
+        if (startNvtId == null && startNvt != null) {
+            startNvtId = startNvt.getId();
         }
+        return startNvtId;
     }
 
-    public Long getProjectId() {
-        if (projectId == null && project != null) {
-            projectId = project.getId();
+    public Long getEndNvtId() {
+        if (endNvtId == null && endNvt != null) {
+            endNvtId = endNvt.getId();
         }
-        return projectId;
+        return endNvtId;
+    }
+
+    public Long getConnectedPopId() {
+        if (connectedPopId == null && connectedPop != null) {
+            connectedPopId = connectedPop.getId();
+        }
+        return connectedPopId;
     }
 }

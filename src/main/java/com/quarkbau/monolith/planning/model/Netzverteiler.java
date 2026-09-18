@@ -27,4 +27,9 @@ public class Netzverteiler {
     @OneToMany(mappedBy = "nvt")
     private List<Huep> hueps;
 
+    @OneToMany(mappedBy = "startNvt")
+    private List<Segment> outgoingSegments;
+
+    @OneToMany(mappedBy = "endNvt")
+    private List<Segment> incomingSegments;
 }

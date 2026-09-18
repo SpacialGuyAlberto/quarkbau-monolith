@@ -10,7 +10,9 @@ import java.util.List;
 @Data
 public class SegmentDTO {
     private Long id;
-    private Long projectId;
+    private Long startNvtId;
+    private Long endNvtId;
+    private Long connectedPopId;
     private Long assignedCrewId;
     private String streetName;
     private String streetType;

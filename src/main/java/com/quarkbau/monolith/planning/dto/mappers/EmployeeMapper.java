@@ -57,7 +57,6 @@ public interface EmployeeMapper {
 
     private static void setCommonFields(Employee employee, RegisterRequest request, String encodedPassword) {
         employee.setEmail(request.getEmail());
-        employee.setPassword(encodedPassword);
         employee.setFirstName(request.getFirstName());
         employee.setLastName(request.getLastName());
         employee.setRole(request.getCompanyRole());
@@ -83,7 +82,6 @@ public interface EmployeeMapper {
 
         employee.setId(dto.getId());
         employee.setEmail(dto.getEmail());
-        employee.setPassword(dto.getPassword());
         employee.setFirstName(dto.getFirstName());
         employee.setLastName(dto.getLastName());
         employee.setRole(dto.getRole());

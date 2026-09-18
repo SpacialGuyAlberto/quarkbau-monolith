@@ -14,6 +14,6 @@ import java.math.BigInteger;
 @Setter
 public class ExternalEmployee extends Employee {
 
-    @Column(name = "subcontractor_id")
-    private BigInteger subcontractorId;
+    @Column(name = "subcontractor_id", nullable = true)
+    private Long subcontractorId;
 }

@@ -16,5 +16,6 @@ public class PopDTO {
     private String name;
     private String locationAddress;
     private Integer maxCapacityPorts;
-    private List<Long> nvtIds;
+    private Long clusterId;
+    private List<NetzverteilerDTO> nvts;
 }

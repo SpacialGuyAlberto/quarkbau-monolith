@@ -20,6 +20,13 @@ public class Pop {
 
     private Integer maxCapacityPorts; // Puertos totales disponibles
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cluster_id")
+    private Cluster cluster;
+
     @OneToMany(mappedBy = "pop", cascade = CascadeType.ALL)
     private List<Netzverteiler> nvts;
+
+    @OneToMany(mappedBy = "connectedPop", cascade = CascadeType.ALL)
+    private List<Segment> directSegments;
 }

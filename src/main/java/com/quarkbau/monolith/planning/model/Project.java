@@ -32,7 +32,7 @@ public class Project {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Segment> segments;
+    private List<Cluster> clusters = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id")

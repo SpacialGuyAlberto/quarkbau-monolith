@@ -28,6 +28,14 @@ CREATE TABLE IF NOT EXISTS employees (
     organization_id BIGINT
 );
 
+
+CREATE TABLE IF NOT EXISTS clusters (
+                                        id SERIAL PRIMARY KEY,
+                                        name VARCHAR(255) NOT NULL,
+                                        description TEXT,
+                                        project_id INT REFERENCES public.projects(id),
+                                        project_leiter_id INT REFERENCES public.users(id)
+)
 -- 2. Inventory Schema
 CREATE TABLE IF NOT EXISTS suppliers (
     id BIGSERIAL PRIMARY KEY,
@@ -256,6 +264,22 @@ CREATE TABLE IF NOT EXISTS hazards (
                                 updated_at timestamp default now()
 
 );
+
+
+create table pop
+(
+    id                 bigserial
+        primary key,
+    name               varchar(255),
+    location_address   text not null,
+    max_capacity_ports integer,
+    cluster_id         bigint
+        references clusters
+);
+
+alter table pop
+    owner to quarkbau;
+
 -- ============================================================
 -- SEED DATA — Development reference data
 -- ============================================================
