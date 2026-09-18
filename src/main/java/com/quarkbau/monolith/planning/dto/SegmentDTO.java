@@ -23,6 +23,8 @@ public class SegmentDTO {
     private Double startLongitude;
     private Double endLatitude;
     private Double endLongitude;
+    private String startAddress;
+    private String endAddress;
     private List<GeometryPoint> geometry;
     private LocalDate plannedStartDate;
     private LocalDate plannedEndDate;

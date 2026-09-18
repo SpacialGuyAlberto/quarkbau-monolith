@@ -14,6 +14,7 @@ import java.util.List;
 public class NetzverteilerDTO {
     private Long id;
     private String identifier;
+    private String locationAddress;
     private Double latitude;
     private Double longitude;
     private Long popId;

@@ -13,8 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 public class PopDTO {
     private Long id;
+    private String identifier;
     private String name;
     private String locationAddress;
+    private Double latitude;
+    private Double longitude;
     private Integer maxCapacityPorts;
     private Long clusterId;
     private List<NetzverteilerDTO> nvts;

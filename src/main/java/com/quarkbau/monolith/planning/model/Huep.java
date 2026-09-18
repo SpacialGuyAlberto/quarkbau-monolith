@@ -13,11 +13,17 @@ public class Huep {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String identifier;
+
     @Column(nullable = false)
     private String streetAddress;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String houseNumber;
+
+    private Double latitude;
+    private Double longitude;
 
     @Column(name = "installation_location")
     private String installationLocation; // "Keller" (Sótano), "Fassade" (Fachada)

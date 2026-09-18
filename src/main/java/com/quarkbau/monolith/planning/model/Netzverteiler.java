@@ -15,6 +15,8 @@ public class Netzverteiler {
 
     @Column(nullable = false, unique = true)
     private String identifier; // Ej: "NVt-45A"
+    
+    private String locationAddress;
 
     private Double latitude;
     private Double longitude;

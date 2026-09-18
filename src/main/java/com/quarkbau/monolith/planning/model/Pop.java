@@ -15,8 +15,14 @@ public class Pop {
     @Column(nullable = false)
     private String name; // Ej: "PoP-München-01"
 
+    @Column(unique = true)
+    private String identifier; // Ej: "POP-001"
+
     @Column(nullable = false)
     private String locationAddress;
+
+    private Double latitude;
+    private Double longitude;
 
     private Integer maxCapacityPorts; // Puertos totales disponibles
 
