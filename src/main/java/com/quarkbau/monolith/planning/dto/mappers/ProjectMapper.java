@@ -10,7 +10,7 @@ import org.mapstruct.Named;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = {ClusterMapper.class}, unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE)
 public interface ProjectMapper {
 
     @Mapping(source = "organization.id", target = "organizationId")

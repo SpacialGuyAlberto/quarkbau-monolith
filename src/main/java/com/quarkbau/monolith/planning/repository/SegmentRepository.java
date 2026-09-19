@@ -11,10 +11,7 @@ import java.util.List;
 
 @Repository
 public interface SegmentRepository extends JpaRepository<Segment, Long> {
-    @Query("SELECT s FROM Segment s LEFT JOIN s.startNvt n1 LEFT JOIN s.endNvt n2 LEFT JOIN s.connectedPop p " +
-           "WHERE (n1.pop.cluster.project.id = :projectId) " +
-           "   OR (n2.pop.cluster.project.id = :projectId) " +
-           "   OR (p.cluster.project.id = :projectId)")
+    @Query("SELECT s FROM Segment s WHERE s.project.id = :projectId")
     List<Segment> findByProjectId(@Param("projectId") Long projectId);
 
     @Query(value = """

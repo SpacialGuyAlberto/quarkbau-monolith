@@ -4,6 +4,7 @@ import com.quarkbau.monolith.planning.dto.NetzverteilerDTO;
 import com.quarkbau.monolith.planning.dto.mappers.NetzverteilerMapper;
 import com.quarkbau.monolith.planning.model.Netzverteiler;
 import com.quarkbau.monolith.planning.repository.NetzverteilerRepository;
+import com.quarkbau.monolith.planning.repository.PopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NetzverteilerService {
     private final NetzverteilerRepository repository;
+    private final PopRepository popRepository;
     private final NetzverteilerMapper mapper;
 
     public List<NetzverteilerDTO> findAll() {
@@ -31,8 +33,7 @@ public class NetzverteilerService {
     public NetzverteilerDTO save(NetzverteilerDTO dto) {
         Netzverteiler entity = mapper.toEntity(dto);
         if (dto.getPopId() != null) {
-            com.quarkbau.monolith.planning.model.Pop pop = new com.quarkbau.monolith.planning.model.Pop();
-            pop.setId(dto.getPopId());
+            com.quarkbau.monolith.planning.model.Pop pop = popRepository.findById(dto.getPopId()).orElseThrow(() -> new IllegalArgumentException("Pop not found"));
             entity.setPop(pop);
         }
         return mapper.toDto(repository.save(entity));

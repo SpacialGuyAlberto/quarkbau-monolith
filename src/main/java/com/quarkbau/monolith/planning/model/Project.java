@@ -31,8 +31,9 @@ public class Project {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Cluster> clusters = new ArrayList<>();
+//    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @com.fasterxml.jackson.annotation.JsonIgnoreProperties("project")
+//    private List<Cluster> clusters = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id")

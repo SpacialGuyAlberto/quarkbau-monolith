@@ -4,6 +4,7 @@ import com.quarkbau.monolith.planning.dto.PopDTO;
 import com.quarkbau.monolith.planning.dto.mappers.PopMapper;
 import com.quarkbau.monolith.planning.model.Pop;
 import com.quarkbau.monolith.planning.repository.PopRepository;
+import com.quarkbau.monolith.planning.repository.ClusterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PopService {
     private final PopRepository repository;
+    private final ClusterRepository clusterRepository;
     private final PopMapper mapper;
 
     public List<PopDTO> findAll() {
@@ -31,8 +33,7 @@ public class PopService {
     public PopDTO save(PopDTO dto) {
         Pop entity = mapper.toEntity(dto);
         if (dto.getClusterId() != null) {
-            com.quarkbau.monolith.planning.model.Cluster cluster = new com.quarkbau.monolith.planning.model.Cluster();
-            cluster.setId(dto.getClusterId());
+            com.quarkbau.monolith.planning.model.Cluster cluster = clusterRepository.findById(dto.getClusterId()).orElseThrow(() -> new IllegalArgumentException("Cluster not found"));
             entity.setCluster(cluster);
         }
         return mapper.toDto(repository.save(entity));

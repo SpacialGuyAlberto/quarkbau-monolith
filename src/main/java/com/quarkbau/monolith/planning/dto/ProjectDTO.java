@@ -18,7 +18,7 @@ public class ProjectDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private Long organizationId;
-    private List<ClusterDTO> clusters;
+    //private List<ClusterDTO> clusters;
     private String organizationName;
 
     private List<GeometryPoint> geometry;

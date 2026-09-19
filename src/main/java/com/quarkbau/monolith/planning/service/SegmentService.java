@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import jakarta.persistence.EntityManager;
+
 @Service
 @RequiredArgsConstructor
 public class  SegmentService {
@@ -27,6 +29,7 @@ public class  SegmentService {
     private final InventoryIntegrationService inventoryService;
     private final Neo4jSyncService neo4jSyncService;
     private final SegmentMapper segmentMapper;
+    private final EntityManager entityManager;
 
 
     @Transactional(value = "transactionManager", readOnly = true) // <-- FUERZA ESTO
@@ -41,6 +44,30 @@ public class  SegmentService {
     public Optional<SegmentDTO> createSegment(Long projectId, SegmentDTO segmentDTO) {
         return projectRepository.findById(projectId).map(project -> {
             Segment segment = segmentMapper.toEntity(segmentDTO);
+            segment.setProject(project);
+            
+            // Fix transient references by loading proxies
+            if (segment.getStartNvt() != null && segment.getStartNvt().getId() != null) {
+                segment.setStartNvt(entityManager.getReference(com.quarkbau.monolith.planning.model.Netzverteiler.class, segment.getStartNvt().getId()));
+            } else {
+                segment.setStartNvt(null);
+            }
+            if (segment.getEndNvt() != null && segment.getEndNvt().getId() != null) {
+                segment.setEndNvt(entityManager.getReference(com.quarkbau.monolith.planning.model.Netzverteiler.class, segment.getEndNvt().getId()));
+            } else {
+                segment.setEndNvt(null);
+            }
+            if (segment.getConnectedPop() != null && segment.getConnectedPop().getId() != null) {
+                segment.setConnectedPop(entityManager.getReference(com.quarkbau.monolith.planning.model.Pop.class, segment.getConnectedPop().getId()));
+            } else {
+                segment.setConnectedPop(null);
+            }
+            if (segment.getAssignedCrew() != null && segment.getAssignedCrew().getId() != null) {
+                segment.setAssignedCrew(entityManager.getReference(com.quarkbau.monolith.planning.model.Crew.class, segment.getAssignedCrew().getId()));
+            } else {
+                segment.setAssignedCrew(null);
+            }
+            
             Segment saved = segmentRepository.save(segment);
             neo4jSyncService.syncSegment(saved);
             return segmentMapper.toDto(saved);

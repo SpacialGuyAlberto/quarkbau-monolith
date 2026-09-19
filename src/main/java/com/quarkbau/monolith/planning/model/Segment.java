@@ -25,6 +25,10 @@ public class Segment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "start_nvt_id")
     private Netzverteiler startNvt;
 
