@@ -85,6 +85,10 @@ public class  SegmentService {
             existingSegment.setWorkType(segmentDTO.getWorkType());
             existingSegment.setStreetName(segmentDTO.getStreetName());
             existingSegment.setLength(segmentDTO.getLength());
+            
+            if (segmentDTO.getGeometry() != null && !segmentDTO.getGeometry().isEmpty()) {
+                existingSegment.setGeometry(segmentDTO.getGeometry());
+            }
 
             Segment saved = segmentRepository.save(existingSegment);
             neo4jSyncService.syncSegment(saved);
