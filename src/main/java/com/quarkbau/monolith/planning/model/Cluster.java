@@ -29,5 +29,8 @@ public class Cluster {
     @JoinColumn(name = "project_leiter_id")
     private InternalEmployee projectManager;
 
+    @OneToMany(mappedBy = "cluster")
+    private List<Pop> pops = new ArrayList<>();
+
 }
 
