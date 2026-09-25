@@ -277,13 +277,12 @@ CREATE TABLE IF NOT EXISTS hazards (
 
 create table pop
 (
-    id                 bigserial
-        primary key,
-    name               varchar(255),
+    id bigserial primary key,
+    name varchar(255),
     location_address   text not null,
     max_capacity_ports integer,
-    cluster_id         bigint
-        references clusters
+    cluster_id bigint references clusters,
+    elevation numeric
 );
 
 alter table pop

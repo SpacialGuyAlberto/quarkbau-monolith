@@ -20,11 +20,11 @@ public class Netzverteiler {
 
     private Double latitude;
     private Double longitude;
+    private Double elevation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pop_id")
     private Pop pop;
-
 
     @OneToMany(mappedBy = "nvt")
     private List<Huep> hueps;

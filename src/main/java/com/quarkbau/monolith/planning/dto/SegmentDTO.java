@@ -21,8 +21,10 @@ public class SegmentDTO {
     private Double length;
     private Double startLatitude;
     private Double startLongitude;
+    private Double startElevation;
     private Double endLatitude;
     private Double endLongitude;
+    private Double endElevation;
     private String startAddress;
     private String endAddress;
     private List<GeometryPoint> geometry;

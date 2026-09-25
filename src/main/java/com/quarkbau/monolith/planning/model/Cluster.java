@@ -29,8 +29,5 @@ public class Cluster {
     @JoinColumn(name = "project_leiter_id")
     private InternalEmployee projectManager;
 
-    @OneToMany(mappedBy = "cluster", cascade = CascadeType.ALL, orphanRemoval = true)
-    @com.fasterxml.jackson.annotation.JsonIgnoreProperties("cluster")
-    private List<Pop> pops = new ArrayList<>();
 }
 

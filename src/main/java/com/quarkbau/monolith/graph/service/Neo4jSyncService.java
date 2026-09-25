@@ -9,10 +9,11 @@ import com.quarkbau.monolith.graph.repository.PopNodeRepository;
 import com.quarkbau.monolith.graph.repository.NetzverteilerNodeRepository;
 import com.quarkbau.monolith.graph.repository.HeupNodeRepository;
 import com.quarkbau.monolith.graph.repository.NetworkIntelligenceRepository;
+import com.quarkbau.monolith.planning.model.Huep;
 import com.quarkbau.monolith.planning.model.Segment;
 import com.quarkbau.monolith.planning.model.Pop;
 import com.quarkbau.monolith.planning.model.Netzverteiler;
-import com.quarkbau.monolith.planning.model.Heup;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,8 @@ public class Neo4jSyncService {
     }
 
     @Transactional("transactionManager")
-    public void syncHeup(Heup heup) {
-        HeupNode node = new HeupNode(heup.getId(), heup.getLocationAddress(), "PLANNED");
+    public void syncHeup(Huep heup) {
+        HeupNode node = new HeupNode(heup.getId(), heup.getStreetAddress(), "PLANNED");
         heupNodeRepository.save(node);
         log.info("Synchronized HEUP {} to Neo4j", heup.getId());
     }

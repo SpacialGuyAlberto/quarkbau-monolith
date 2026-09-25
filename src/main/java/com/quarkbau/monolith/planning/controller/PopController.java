@@ -29,6 +29,12 @@ public class PopController {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/by-cluster/{clusterId}")
+    public ResponseEntity<List<PopDTO>> getByClusterId(@PathVariable Long clusterId) {
+           List<PopDTO> pops = service.findByClusterId(clusterId);
+           return ResponseEntity.ok(pops);
+    }
+
     @PostMapping
     public ResponseEntity<PopDTO> create(@RequestBody PopDTO dto) {
         return ResponseEntity.ok(service.save(dto));

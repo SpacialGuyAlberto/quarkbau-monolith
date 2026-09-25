@@ -23,6 +23,7 @@ public class Pop {
 
     private Double latitude;
     private Double longitude;
+    private Double elevation;
 
     private Integer maxCapacityPorts; // Puertos totales disponibles
 

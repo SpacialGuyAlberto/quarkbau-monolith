@@ -17,6 +17,9 @@ public class NetzverteilerDTO {
     private String locationAddress;
     private Double latitude;
     private Double longitude;
+    private Double elevation;
     private Long popId;
     private List<Long> huepIds;
+    private List<Long> outgoingSegmentIds;
+    private List<Long> incomingSegmentIds;
 }

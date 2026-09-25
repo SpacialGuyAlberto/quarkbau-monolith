@@ -68,12 +68,18 @@ public class Segment {
 
     @Column(name = "start_longitude")
     private Double startLongitude;
+    
+    @Column(name = "start_elevation")
+    private Double startElevation;
 
     @Column(name = "end_latitude")
     private Double endLatitude;
 
     @Column(name = "end_longitude")
     private Double endLongitude;
+    
+    @Column(name = "end_elevation")
+    private Double endElevation;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "geometry", columnDefinition = "jsonb")

@@ -24,6 +24,12 @@ public class PopService {
                 .collect(Collectors.toList());
     }
 
+    public List<PopDTO> findByClusterId(Long clusterId) {
+        return repository.findByClusterId(clusterId).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public PopDTO findById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDto)
