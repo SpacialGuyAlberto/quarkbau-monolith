@@ -284,6 +284,35 @@ create table pop
     cluster_id bigint references clusters,
     elevation numeric
 );
+-- External Utilities Table for GIS Reference (Water, Gas, Electricity)
+CREATE TABLE IF NOT EXISTS external_utilities (
+                                                  id BIGSERIAL PRIMARY KEY,
+                                                  utility_type VARCHAR(31) NOT NULL, -- Columna discriminadora
+                                                  geometry JSONB,
+                                                  depth DOUBLE PRECISION,
+                                                  operator_name VARCHAR(255),
+                                                  contact_phone VARCHAR(50),
+                                                  hazard_level VARCHAR(50),
+                                                  status VARCHAR(50),
+
+    -- Específicos de WaterPipe
+                                                  pipe_type VARCHAR(50),
+                                                  diameter_mm INTEGER,
+                                                  pressure_level VARCHAR(50),
+
+    -- Compartidos (Water/Gas)
+                                                  material VARCHAR(100),
+
+    -- Específicos de GasPipe
+                                                  pressure_class VARCHAR(50),
+
+    -- Específicos de ElectricityCable
+                                                  voltage_category VARCHAR(50),
+                                                  voltage_value INTEGER,
+                                                  shielding_type VARCHAR(50),
+                                                  number_of_cores INTEGER
+);
+
 
 alter table pop
     owner to quarkbau;
