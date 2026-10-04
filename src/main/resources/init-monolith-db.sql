@@ -317,3 +317,17 @@ CREATE TABLE IF NOT EXISTS external_utilities (
 alter table pop
     owner to quarkbau;
 
+CREATE TABLE IF NOT EXISTS fencing_plan (
+    id BIGSERIAL PRIMARY KEY,
+    segment_id BIGINT REFERENCES segments(id),
+    closure_type VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS fencing_element (
+    id BIGSERIAL PRIMARY KEY,
+    element_type VARCHAR(255),
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION,
+    rotation DOUBLE PRECISION,
+    fencing_plan_id BIGINT REFERENCES fencing_plan(id) ON DELETE CASCADE
+);

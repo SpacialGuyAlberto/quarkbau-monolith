@@ -24,6 +24,11 @@ public class UtilityLineController {
         return ResponseEntity.ok(service.getAll());
     }
 
+    @GetMapping("/external")
+    public ResponseEntity<List<UtilityLineDTO>> getExternalUtilities() {
+        return ResponseEntity.ok(service.getAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UtilityLineDTO> getUtilityById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));

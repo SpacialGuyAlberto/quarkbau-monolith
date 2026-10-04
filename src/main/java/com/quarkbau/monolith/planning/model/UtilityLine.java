@@ -20,6 +20,9 @@ public abstract class UtilityLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "utility_type", insertable = false, updatable = false)
+    private String utilityType;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "geometry", columnDefinition = "jsonb")
     private List<GeometryPoint> geometry = new ArrayList<>();
