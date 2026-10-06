@@ -4,6 +4,7 @@ import com.quarkbau.monolith.graph.service.Neo4jSyncService;
 import com.quarkbau.monolith.planning.dto.NearestSegmentDTO;
 import com.quarkbau.monolith.planning.dto.SegmentDTO;
 import com.quarkbau.monolith.planning.dto.mappers.SegmentMapper;
+import com.quarkbau.monolith.planning.exception.CrewBusyException;
 import com.quarkbau.monolith.planning.model.Project;
 import com.quarkbau.monolith.planning.model.Segment;
 import com.quarkbau.monolith.planning.model.WorkType;
@@ -63,7 +64,12 @@ public class  SegmentService {
                 segment.setConnectedPop(null);
             }
             if (segment.getAssignedCrew() != null && segment.getAssignedCrew().getId() != null) {
-                segment.setAssignedCrew(entityManager.getReference(com.quarkbau.monolith.planning.model.Crew.class, segment.getAssignedCrew().getId()));
+                Long crewId = segment.getAssignedCrew().getId();
+                List<Segment> activeSegments = segmentRepository.findActiveSegmentsByCrewId(crewId);
+                if (!activeSegments.isEmpty()) {
+                    throw new CrewBusyException("The crew is currently busy on another segment. Do you want to schedule them for later?", crewId);
+                }
+                segment.setAssignedCrew(entityManager.getReference(com.quarkbau.monolith.planning.model.Crew.class, crewId));
             } else {
                 segment.setAssignedCrew(null);
             }
@@ -80,6 +86,21 @@ public class  SegmentService {
         return segmentRepository.findById(id).map(existingSegment -> {
             boolean isCompleting = !WorkflowState.COMPLETED.equals(existingSegment.getCurrentState())
                     && WorkflowState.COMPLETED.equals(segmentDTO.getCurrentState());
+
+            if (segmentDTO.getAssignedCrewId() != null) {
+                Long newCrewId = segmentDTO.getAssignedCrewId();
+                Long currentCrewId = (existingSegment.getAssignedCrew() != null) ? existingSegment.getAssignedCrew().getId() : null;
+                
+                if (!newCrewId.equals(currentCrewId)) {
+                    List<Segment> activeSegments = segmentRepository.findActiveSegmentsByCrewId(newCrewId);
+                    if (!activeSegments.isEmpty()) {
+                        throw new CrewBusyException("The crew is currently busy on another segment. Do you want to schedule them for later?", newCrewId);
+                    }
+                    existingSegment.setAssignedCrew(entityManager.getReference(com.quarkbau.monolith.planning.model.Crew.class, newCrewId));
+                }
+            } else {
+                existingSegment.setAssignedCrew(null);
+            }
 
             existingSegment.setCurrentState(segmentDTO.getCurrentState());
             existingSegment.setWorkType(segmentDTO.getWorkType());

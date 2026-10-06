@@ -14,6 +14,9 @@ public interface SegmentRepository extends JpaRepository<Segment, Long> {
     @Query("SELECT s FROM Segment s WHERE s.project.id = :projectId")
     List<Segment> findByProjectId(@Param("projectId") Long projectId);
 
+    @Query("SELECT s FROM Segment s WHERE s.assignedCrew.id = :crewId AND s.currentState != com.quarkbau.monolith.planning.model.WorkflowState.COMPLETED")
+    List<Segment> findActiveSegmentsByCrewId(@Param("crewId") Long crewId);
+
     @Query(value = """
         SELECT s.id,
                s.street_name as streetName,
