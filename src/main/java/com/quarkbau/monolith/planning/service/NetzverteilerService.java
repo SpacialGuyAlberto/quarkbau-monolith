@@ -24,6 +24,13 @@ public class NetzverteilerService {
                 .collect(Collectors.toList());
     }
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    public List<NetzverteilerDTO> findByProjectId(Long projectId) {
+        return repository.findByProjectId(projectId).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public NetzverteilerDTO findById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDto)

@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface PopRepository extends JpaRepository<Pop, Long> {
     List<Pop> findByClusterId(Long clusterId);
+
+    @org.springframework.data.jpa.repository.Query("SELECT p FROM Pop p WHERE p.cluster.project.id = :projectId")
+    List<Pop> findByProjectId(@org.springframework.data.repository.query.Param("projectId") Long projectId);
 }

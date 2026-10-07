@@ -30,6 +30,13 @@ public class PopService {
                 .collect(Collectors.toList());
     }
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    public List<PopDTO> findByProjectId(Long projectId) {
+        return repository.findByProjectId(projectId).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public PopDTO findById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDto)
