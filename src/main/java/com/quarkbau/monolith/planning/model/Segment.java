@@ -50,7 +50,7 @@ public class Segment {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "current_state", nullable = false)
-    private WorkflowState currentState = WorkflowState.PLAN;
+    private WorkflowState currentState = WorkflowState.PLANNED;
 
     @Column(name = "street_name")
     private String streetName;

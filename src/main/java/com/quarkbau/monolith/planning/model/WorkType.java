@@ -1,17 +1,18 @@
 package com.quarkbau.monolith.planning.model;
 
 public enum WorkType {
+    SURVEY,
+    PERMITTING,
     EXCAVATION,
     DUCT_INSTALLATION,
+    BACKFILL,
     TRENCHING,
     DRILLING,
-    BACKFILL,
-    ASPHALT,
-    QA,
-    DUCT_LAYING,
+    RESTORATION,
     FIBER_BLOWING,
     SPLICING,
-    RESTORATION,
+    ASPHALT,
+    QA,
     DOCUMENTATION
 }
 

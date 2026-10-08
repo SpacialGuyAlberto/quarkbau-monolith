@@ -1,13 +1,11 @@
 package com.quarkbau.monolith.planning.model;
 
 public enum WorkflowState {
-    PLAN,
-    SURVEY,
-    PERMISSION,
-    READY,
-    CONSTRUCTION,
-    QA,
-    COMPLETED,
+    PLANNED,
+    SCHEDULED,
     IN_PROGRESS,
-    PLANNED
+    BLOCKED,
+    HOLD,
+    CANCELLED,
+    COMPLETED
 }
