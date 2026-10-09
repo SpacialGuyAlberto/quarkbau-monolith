@@ -9,10 +9,10 @@ import com.quarkbau.monolith.graph.repository.PopNodeRepository;
 import com.quarkbau.monolith.graph.repository.NetzverteilerNodeRepository;
 import com.quarkbau.monolith.graph.repository.HeupNodeRepository;
 import com.quarkbau.monolith.graph.repository.NetworkIntelligenceRepository;
-import com.quarkbau.monolith.planning.model.Huep;
-import com.quarkbau.monolith.planning.model.Segment;
-import com.quarkbau.monolith.planning.model.Pop;
-import com.quarkbau.monolith.planning.model.Netzverteiler;
+import com.quarkbau.monolith.planning.network.node.Huep;
+import com.quarkbau.monolith.planning.segment.core.Segment;
+import com.quarkbau.monolith.planning.network.node.Pop;
+import com.quarkbau.monolith.planning.network.node.Netzverteiler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

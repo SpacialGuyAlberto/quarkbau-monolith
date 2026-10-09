@@ -1,0 +1,154 @@
+package com.quarkbau.monolith.planning.segment.core;
+
+import com.quarkbau.monolith.planning.environment.safety.Hazard;
+import com.quarkbau.monolith.planning.segment.workflow.WorkType;
+import com.quarkbau.monolith.planning.segment.workflow.WorkflowState;
+import com.quarkbau.monolith.planning.workforce.team.Crew;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.quarkbau.monolith.planning.network.duct.Rohrverband;
+import com.quarkbau.monolith.planning.network.node.Netzverteiler;
+import com.quarkbau.monolith.planning.network.node.Pop;
+import com.quarkbau.monolith.planning.project.core.Project;
+import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
+import org.locationtech.jts.geom.LineString;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "segments")
+@JsonIgnoreProperties({ "project", "assignedCrew" })
+public class Segment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "start_nvt_id")
+    private Netzverteiler startNvt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "end_nvt_id")
+    private Netzverteiler endNvt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "connected_pop_id")
+    private Pop connectedPop;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "crew_id")
+    private Crew assignedCrew;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "work_type", nullable = false)
+    private WorkType workType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "current_state", nullable = false)
+    private WorkflowState currentState = WorkflowState.PLANNED;
+
+    @Column(name = "street_name")
+    private String streetName;
+
+    @Column(name = "street_type")
+    private String streetType;
+
+    @Column(name = "soil_type")
+    private String soilType;
+
+    private Double length;
+
+    @Column(name = "start_latitude")
+    private Double startLatitude;
+
+    @Column(name = "start_longitude")
+    private Double startLongitude;
+    
+    @Column(name = "start_elevation")
+    private Double startElevation;
+
+    @Column(name = "end_latitude")
+    private Double endLatitude;
+
+    @Column(name = "end_longitude")
+    private Double endLongitude;
+    
+    @Column(name = "end_elevation")
+    private Double endElevation;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "geometry", columnDefinition = "jsonb")
+    private List<GeometryPoint> geometry = new ArrayList<>();
+
+    @Column(name = "traffic_level")
+    private String trafficLevel;
+
+    @Column(name = "planned_start_date")
+    private LocalDate plannedStartDate;
+
+    @Column(name = "planned_end_date")
+    private LocalDate plannedEndDate;
+
+    @Column(name = "duct_diameter")
+    private Double ductDiameter;
+
+    @Column(name = "start_address")
+    private String startAddress;
+
+    @Column(name = "end_address")
+    private String endAddress;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "custom_fields", columnDefinition = "jsonb")
+    private Map<String, Object> customFields = new HashMap<>();
+
+    @OneToMany(cascade  = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "segment_id")
+    private List<Hazard> hazards = new ArrayList<>();
+
+    @OneToMany(cascade  = CascadeType.ALL, orphanRemoval = true)
+    private List<Rohrverband> rohrverband = new ArrayList<>();
+
+    @Transient
+    private Long startNvtId;
+
+    @Transient
+    private Long endNvtId;
+
+    @Transient
+    private Long connectedPopId;
+
+    public Long getStartNvtId() {
+        if (startNvtId == null && startNvt != null) {
+            startNvtId = startNvt.getId();
+        }
+        return startNvtId;
+    }
+
+    public Long getEndNvtId() {
+        if (endNvtId == null && endNvt != null) {
+            endNvtId = endNvt.getId();
+        }
+        return endNvtId;
+    }
+
+    public Long getConnectedPopId() {
+        if (connectedPopId == null && connectedPop != null) {
+            connectedPopId = connectedPop.getId();
+        }
+        return connectedPopId;
+    }
+}

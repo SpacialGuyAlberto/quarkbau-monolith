@@ -1,5 +1,8 @@
 package com.quarkbau.monolith.graph.repository;
 
+import com.quarkbau.monolith.planning.network.node.Netzverteiler;
+import com.quarkbau.monolith.planning.network.node.Pop;
+import com.quarkbau.monolith.planning.segment.core.Segment;
 import com.quarkbau.monolith.graph.model.SegmentNode;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;

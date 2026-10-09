@@ -1,7 +1,7 @@
 package com.quarkbau.monolith.auth.dto;
 
 import com.quarkbau.monolith.auth.model.UserRole;
-import com.quarkbau.monolith.planning.model.CompanyRole;
+import com.quarkbau.monolith.planning.workforce.personnel.CompanyRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

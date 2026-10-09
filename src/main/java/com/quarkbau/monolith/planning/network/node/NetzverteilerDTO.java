@@ -1,0 +1,25 @@
+package com.quarkbau.monolith.planning.network.node;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class NetzverteilerDTO {
+    private Long id;
+    private String identifier;
+    private String locationAddress;
+    private Double latitude;
+    private Double longitude;
+    private Double elevation;
+    private Long popId;
+    private List<Long> huepIds;
+    private List<Long> outgoingSegmentIds;
+    private List<Long> incomingSegmentIds;
+}

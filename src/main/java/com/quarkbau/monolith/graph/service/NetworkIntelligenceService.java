@@ -1,5 +1,6 @@
 package com.quarkbau.monolith.graph.service;
 
+import com.quarkbau.monolith.planning.network.node.Netzverteiler;
 import com.quarkbau.monolith.graph.repository.NetworkIntelligenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

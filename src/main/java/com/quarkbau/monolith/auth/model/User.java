@@ -1,6 +1,6 @@
 package com.quarkbau.monolith.auth.model;
 
-import com.quarkbau.monolith.planning.model.Employee;
+import com.quarkbau.monolith.planning.workforce.personnel.Employee;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Getter;

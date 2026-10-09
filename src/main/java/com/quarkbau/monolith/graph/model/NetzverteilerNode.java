@@ -1,5 +1,6 @@
 package com.quarkbau.monolith.graph.model;
 
+import com.quarkbau.monolith.planning.network.node.Netzverteiler;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import lombok.Getter;
