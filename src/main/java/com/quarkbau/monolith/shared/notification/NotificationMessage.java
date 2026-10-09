@@ -4,5 +4,6 @@ public record NotificationMessage(
     String recipientId,
     String title,
     String body,
-    NotificationChannel channel
+    NotificationChannel channel,
+    String entityId
 ) {}

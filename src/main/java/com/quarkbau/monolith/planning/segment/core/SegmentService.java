@@ -70,9 +70,27 @@ public class  SegmentService {
             }
             if (segment.getAssignedCrew() != null && segment.getAssignedCrew().getId() != null) {
                 Long crewId = segment.getAssignedCrew().getId();
-                List<Segment> activeSegments = segmentRepository.findActiveSegmentsByCrewId(crewId);
+                List<Segment> activeSegments;
+                
+                if (segment.getPlannedStartDate() != null && segment.getPlannedEndDate() != null) {
+                    activeSegments = segmentRepository.findConflictingSegmentsByCrewIdAndDates(
+                        crewId, segment.getPlannedStartDate(), segment.getPlannedEndDate());
+                } else {
+                    activeSegments = segmentRepository.findActiveSegmentsByCrewId(crewId);
+                }
+                
                 if (!activeSegments.isEmpty()) {
-                    throw new CrewBusyException("The crew is currently busy on another segment. Do you want to schedule them for later?", crewId);
+                    java.time.LocalDate nextAvailable = activeSegments.stream()
+                        .map(Segment::getPlannedEndDate)
+                        .filter(java.util.Objects::nonNull)
+                        .max(java.time.LocalDate::compareTo)
+                        .orElse(null);
+
+                    String message = "The crew is currently busy or scheduled on another segment during these dates.";
+                    if (nextAvailable != null) {
+                        message = "The crew is currently busy during these dates. Next available date: " + nextAvailable.plusDays(1) + ".";
+                    }
+                    throw new CrewBusyException(message, crewId);
                 }
                 segment.setAssignedCrew(entityManager.getReference(com.quarkbau.monolith.planning.workforce.team.Crew.class, crewId));
             } else {
@@ -96,10 +114,40 @@ public class  SegmentService {
                 Long newCrewId = segmentDTO.getAssignedCrewId();
                 Long currentCrewId = (existingSegment.getAssignedCrew() != null) ? existingSegment.getAssignedCrew().getId() : null;
                 
-                if (!newCrewId.equals(currentCrewId)) {
-                    List<Segment> activeSegments = segmentRepository.findActiveSegmentsByCrewId(newCrewId);
+                boolean datesChanged = false;
+                if (segmentDTO.getPlannedStartDate() != null && segmentDTO.getPlannedEndDate() != null) {
+                    if (!segmentDTO.getPlannedStartDate().equals(existingSegment.getPlannedStartDate()) ||
+                        !segmentDTO.getPlannedEndDate().equals(existingSegment.getPlannedEndDate())) {
+                        datesChanged = true;
+                    }
+                }
+                
+                if (!newCrewId.equals(currentCrewId) || datesChanged) {
+                    List<Segment> activeSegments;
+                    if (segmentDTO.getPlannedStartDate() != null && segmentDTO.getPlannedEndDate() != null) {
+                        activeSegments = segmentRepository.findConflictingSegmentsByCrewIdAndDates(
+                            newCrewId, segmentDTO.getPlannedStartDate(), segmentDTO.getPlannedEndDate());
+                    } else {
+                        activeSegments = segmentRepository.findActiveSegmentsByCrewId(newCrewId);
+                    }
+                    
+                    // Filter out the current segment
+                    activeSegments = activeSegments.stream()
+                        .filter(s -> !s.getId().equals(existingSegment.getId()))
+                        .collect(Collectors.toList());
+
                     if (!activeSegments.isEmpty()) {
-                        throw new CrewBusyException("The crew is currently busy on another segment. Do you want to schedule them for later?", newCrewId);
+                        java.time.LocalDate nextAvailable = activeSegments.stream()
+                            .map(Segment::getPlannedEndDate)
+                            .filter(java.util.Objects::nonNull)
+                            .max(java.time.LocalDate::compareTo)
+                            .orElse(null);
+
+                        String message = "The crew is currently busy or scheduled on another segment during these dates.";
+                        if (nextAvailable != null) {
+                            message = "The crew is currently busy during these dates. Next available date: " + nextAvailable.plusDays(1) + ".";
+                        }
+                        throw new CrewBusyException(message, newCrewId);
                     }
                     existingSegment.setAssignedCrew(entityManager.getReference(com.quarkbau.monolith.planning.workforce.team.Crew.class, newCrewId));
                 }
@@ -112,6 +160,9 @@ public class  SegmentService {
             existingSegment.setWorkType(segmentDTO.getWorkType());
             existingSegment.setStreetName(segmentDTO.getStreetName());
             existingSegment.setLength(segmentDTO.getLength());
+            
+            existingSegment.setPlannedStartDate(segmentDTO.getPlannedStartDate());
+            existingSegment.setPlannedEndDate(segmentDTO.getPlannedEndDate());
             
             if (segmentDTO.getGeometry() != null && !segmentDTO.getGeometry().isEmpty()) {
                 existingSegment.setGeometry(segmentDTO.getGeometry());

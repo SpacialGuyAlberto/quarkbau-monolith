@@ -45,23 +45,27 @@ public class WorkflowNotificationListener {
                 : "1";
 
         // Enviar notificación a la App Móvil para la crew asignada
-        NotificationMessage mobileMessage = new NotificationMessage(targetUser, title, body, NotificationChannel.PUSH_MOBILE);
+        NotificationMessage mobileMessage = new NotificationMessage(targetUser, title, body, NotificationChannel.PUSH_MOBILE, segment.getId().toString());
         senderFactory.getSender(NotificationChannel.PUSH_MOBILE).send(mobileMessage);
 
         // FOR DEMO: Siempre enviarle a userId 1 para que el tester lo vea en la app
         if (!targetUser.equals("1")) {
-            NotificationMessage demoMessage = new NotificationMessage("1", title, body, NotificationChannel.PUSH_MOBILE);
+            NotificationMessage demoMessage = new NotificationMessage("1", title, body, NotificationChannel.PUSH_MOBILE, segment.getId().toString());
             senderFactory.getSender(NotificationChannel.PUSH_MOBILE).send(demoMessage);
         }
 
         // Enviar notificación al Dashboard Web en tiempo real (para PMs y Backoffice)
-        NotificationMessage webMessage = new NotificationMessage("BACKOFFICE", title, body, NotificationChannel.WEB_DASHBOARD);
+        NotificationMessage webMessage = new NotificationMessage("BACKOFFICE", title, body, NotificationChannel.WEB_DASHBOARD, segment.getId().toString());
         senderFactory.getSender(NotificationChannel.WEB_DASHBOARD).send(webMessage);
 
         // Si el WorkType lo requiere, enviar al HUD de las gafas AR del capataz en terreno
-        if (segment.getCurrentState() == WorkflowState.IN_PROGRESS && (segment.getWorkType() == WorkType.EXCAVATION || segment.getWorkType() == WorkType.DUCT_INSTALLATION)) {
-            NotificationMessage glassesMessage = new NotificationMessage(targetUser, title, "Fase en progreso iniciada.", NotificationChannel.PUSH_GLASSES);
-            senderFactory.getSender(NotificationChannel.PUSH_GLASSES).send(glassesMessage);
+        NotificationMessage glassesMessage = new NotificationMessage(targetUser, title, body, NotificationChannel.PUSH_GLASSES, segment.getId().toString());
+        senderFactory.getSender(NotificationChannel.PUSH_GLASSES).send(glassesMessage);
+
+        // FOR DEMO: Siempre enviarle a userId 1 para que la app de Unity lo reciba (ya que foremanId = "1" por defecto)
+        if (!targetUser.equals("1")) {
+            NotificationMessage demoGlassesMessage = new NotificationMessage("1", title, body, NotificationChannel.PUSH_GLASSES, segment.getId().toString());
+            senderFactory.getSender(NotificationChannel.PUSH_GLASSES).send(demoGlassesMessage);
         }
     }
 }

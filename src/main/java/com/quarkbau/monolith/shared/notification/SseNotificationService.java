@@ -18,8 +18,8 @@ public class SseNotificationService {
     private final Map<String, List<SseEmitter>> emitters = new ConcurrentHashMap<>();
 
     public SseEmitter subscribe(String recipientId) {
-        // Configuramos el timeout a un valor muy alto para mantener la conexión viva en Gafas y Web
-        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+        // Configuramos el timeout a -1L (infinito) para que Tomcat no tenga overflow
+        SseEmitter emitter = new SseEmitter(-1L);
         
         emitters.computeIfAbsent(recipientId, k -> new CopyOnWriteArrayList<>()).add(emitter);
 
