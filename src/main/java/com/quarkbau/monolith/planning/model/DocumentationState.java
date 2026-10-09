@@ -3,16 +3,16 @@ package com.quarkbau.monolith.planning.model;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SurveyState implements ConstructionPhaseState {
+public class DocumentationState implements ConstructionPhaseState {
 
     @Override
     public void advancePhase(Segment segment) {
-        segment.setWorkType(WorkType.PERMITTING);
-        segment.setCurrentState(WorkflowState.PLANNED);
+        // This is the final state. The segment is fully complete.
+        // It stays as COMPLETED, no WorkType change.
     }
 
     @Override
     public WorkType getWorkType() {
-        return WorkType.SURVEY;
+        return WorkType.DOCUMENTATION;
     }
 }
