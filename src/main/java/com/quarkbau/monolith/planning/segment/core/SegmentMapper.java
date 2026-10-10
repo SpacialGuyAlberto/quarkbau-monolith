@@ -13,8 +13,10 @@ import org.locationtech.jts.geom.Coordinate;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.quarkbau.monolith.shared.base.BaseMapper;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SegmentMapper {
+public interface SegmentMapper extends BaseMapper<Segment, SegmentDTO> {
 
     @Mapping(source = "startNvtId", target = "startNvt.id")
     @Mapping(source = "endNvtId", target = "endNvt.id")

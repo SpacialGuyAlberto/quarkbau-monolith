@@ -24,10 +24,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.EntityManager;
+import com.quarkbau.monolith.shared.base.BaseServiceImpl;
 
 @Service
-@RequiredArgsConstructor
-public class  SegmentService {
+public class SegmentService extends BaseServiceImpl<Segment, SegmentDTO, Long> {
 
     private final SegmentRepository segmentRepository;
     private final ProjectRepository projectRepository;
@@ -37,10 +37,31 @@ public class  SegmentService {
     private final EntityManager entityManager;
     private final org.springframework.context.ApplicationEventPublisher eventPublisher;
 
+    public SegmentService(SegmentRepository segmentRepository, SegmentMapper segmentMapper,
+                          ProjectRepository projectRepository, InventoryIntegrationService inventoryService,
+                          Neo4jSyncService neo4jSyncService, EntityManager entityManager,
+                          org.springframework.context.ApplicationEventPublisher eventPublisher) {
+        super(segmentRepository, segmentMapper);
+        this.segmentRepository = segmentRepository;
+        this.segmentMapper = segmentMapper;
+        this.projectRepository = projectRepository;
+        this.inventoryService = inventoryService;
+        this.neo4jSyncService = neo4jSyncService;
+        this.entityManager = entityManager;
+        this.eventPublisher = eventPublisher;
+    }
 
-    @Transactional(value = "transactionManager", readOnly = true) // <-- FUERZA ESTO
+
+    @Transactional(value = "transactionManager", readOnly = true)
     public List<SegmentDTO> findProjectSegments(Long projectId) {
         return segmentRepository.findByProjectId(projectId).stream()
+                .map(segmentMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(value = "transactionManager", readOnly = true)
+    public List<SegmentDTO> findActiveSegmentsByCrewId(Long crewId) {
+        return segmentRepository.findActiveSegmentsByCrewId(crewId).stream()
                 .map(segmentMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -104,8 +125,9 @@ public class  SegmentService {
     }
 
 
+    @Override
     @Transactional("transactionManager") // <-- FUERZA ESTO
-    public Optional<SegmentDTO> updateSegment(Long id, SegmentDTO segmentDTO) {
+    public Optional<SegmentDTO> update(Long id, SegmentDTO segmentDTO) {
         return segmentRepository.findById(id).map(existingSegment -> {
             boolean isCompleting = !WorkflowState.COMPLETED.equals(existingSegment.getCurrentState())
                     && WorkflowState.COMPLETED.equals(segmentDTO.getCurrentState());

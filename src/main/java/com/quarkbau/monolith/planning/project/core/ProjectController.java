@@ -10,21 +10,45 @@ import com.quarkbau.monolith.planning.project.core.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import com.quarkbau.monolith.shared.base.BaseController;
+import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/projects")
-@RequiredArgsConstructor
-public class ProjectController {
+public class ProjectController extends BaseController<ProjectDTO, Long> {
 
-    private final ProjectRepository repository;
     private final ProjectService service;
+    private final ProjectRepository repository;
     private final ProjectMapper mapper;
     private final com.quarkbau.monolith.planning.segment.core.SmartSegmentRecognitionService smartSegmentRecognitionService;
+    private final com.quarkbau.monolith.planning.segment.core.SegmentService segmentService;
 
+    public ProjectController(ProjectService service, ProjectRepository repository, ProjectMapper mapper, com.quarkbau.monolith.planning.segment.core.SmartSegmentRecognitionService smartSegmentRecognitionService, com.quarkbau.monolith.planning.segment.core.SegmentService segmentService) {
+        super(service);
+        this.service = service;
+        this.repository = repository;
+        this.mapper = mapper;
+        this.smartSegmentRecognitionService = smartSegmentRecognitionService;
+        this.segmentService = segmentService;
+    }
+
+    @GetMapping("/{projectId}/segments")
+    public ResponseEntity<java.util.List<com.quarkbau.monolith.planning.segment.core.SegmentDTO>> getProjectSegments(@PathVariable Long projectId) {
+        return ResponseEntity.ok(segmentService.findProjectSegments(projectId));
+    }
+
+    @PostMapping("/{projectId}/segments")
+    public ResponseEntity<com.quarkbau.monolith.planning.segment.core.SegmentDTO> createSegment(@PathVariable Long projectId, @RequestBody com.quarkbau.monolith.planning.segment.core.SegmentDTO segmentDTO) {
+        return segmentService.createSegment(projectId, segmentDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Override
     @GetMapping
-    public List<Project> getAllProjects() {
-        List<Project> projects = service.findAllProjects();
+    public ResponseEntity<List<ProjectDTO>> findAll() {
+        List<ProjectDTO> projects = service.findAll();
         if (projects.isEmpty()) {
             Project p1 = new Project();
             p1.setName("Berlin Fiber Optics");
@@ -36,25 +60,9 @@ public class ProjectController {
             p2.setDescription("Expanding 5G coverage in Munich");
             repository.save(p2);
 
-            return repository.findAll();
+            return ResponseEntity.ok(service.findAll());
         }
-        return projects;
-    }
-
-    @GetMapping("/{id}")
-    public Project getProjectById(@PathVariable Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Project not found with id: " + id));
-    }
-
-    @PostMapping
-    public ProjectDTO saveProject(@RequestBody ProjectDTO project) {
-       return service.create(project);
-    }
-
-    @PutMapping("/{id}")
-    public ProjectDTO updateProject(@PathVariable Long id, @RequestBody ProjectDTO project) {
-        return service.update(project);
+        return ResponseEntity.ok(projects);
     }
 
     @PostMapping("/{id}/planauskunft/process")

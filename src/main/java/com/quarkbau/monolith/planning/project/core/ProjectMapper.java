@@ -10,8 +10,10 @@ import org.mapstruct.Named;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.quarkbau.monolith.shared.base.BaseMapper;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE)
-public interface ProjectMapper {
+public interface ProjectMapper extends BaseMapper<Project, ProjectDTO> {
 
     @Mapping(source = "organization.id", target = "organizationId")
     @Mapping(source = "organization.name", target = "organizationName")

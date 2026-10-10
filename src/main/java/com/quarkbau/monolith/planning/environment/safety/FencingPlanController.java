@@ -4,6 +4,9 @@ import com.quarkbau.monolith.planning.segment.core.Segment;
 import com.quarkbau.monolith.planning.segment.core.SegmentRepository;
 import com.quarkbau.monolith.planning.environment.safety.FencingPlan;
 import com.quarkbau.monolith.planning.environment.safety.FencingPlanRepository;
+import com.quarkbau.monolith.shared.notification.NotificationMessage;
+import com.quarkbau.monolith.shared.notification.NotificationChannel;
+import com.quarkbau.monolith.shared.notification.SseNotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,7 @@ public class FencingPlanController {
 
     private final FencingPlanRepository fencingPlanRepository;
     private final com.quarkbau.monolith.planning.segment.core.SegmentRepository segmentRepository;
+    private final SseNotificationService notificationService;
 
     @GetMapping
     public ResponseEntity<List<FencingPlan>> getAllFencingPlans() {
@@ -31,7 +35,15 @@ public class FencingPlanController {
 
     @PostMapping
     public ResponseEntity<FencingPlan> createFencingPlan(@RequestBody FencingPlan plan) {
-        return ResponseEntity.ok(fencingPlanRepository.save(plan));
+        FencingPlan saved = fencingPlanRepository.save(plan);
+        if (saved.getSegmentId() != null) {
+            NotificationMessage msg = new NotificationMessage(
+                "1", "FENCING_UPDATED", "Fencing plan created for segment " + saved.getSegmentId(),
+                NotificationChannel.PUSH_GLASSES, String.valueOf(saved.getSegmentId())
+            );
+            notificationService.dispatch(msg);
+        }
+        return ResponseEntity.ok(saved);
     }
 
     @PostMapping("/segment/{segmentId}/generate")
@@ -70,6 +82,14 @@ public class FencingPlanController {
         elements.add(cone);
         
         plan.setElements(elements);
-        return ResponseEntity.ok(fencingPlanRepository.save(plan));
+        FencingPlan saved = fencingPlanRepository.save(plan);
+        
+        NotificationMessage msg = new NotificationMessage(
+            "1", "FENCING_GENERATED", "Standard Fencing (" + strategy + ") applied to Segment " + segmentId,
+            NotificationChannel.PUSH_GLASSES, String.valueOf(segmentId)
+        );
+        notificationService.dispatch(msg);
+
+        return ResponseEntity.ok(saved);
     }
 }

@@ -27,16 +27,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SmartSegmentRecognitionService {
 
-    private final ProjectService projectService;
+    private final com.quarkbau.monolith.planning.project.core.ProjectRepository projectRepository;
     private final SegmentRepository segmentRepository;
 
     public List<Segment> processPlanauskunft(Long projectId, MultipartFile file, 
                                              double scale, double rotation, double x, double y,
                                              double centerLat, double centerLng) {
-        Project project = projectService.findById(projectId);
-        if (project == null) {
-            throw new IllegalArgumentException("Project not found: " + projectId);
-        }
+        Project project = projectRepository.findById(projectId)
+            .orElseThrow(() -> new IllegalArgumentException("Project not found: " + projectId));
 
         String filename = file.getOriginalFilename();
         boolean isDeterministic = filename != null && (filename.endsWith(".dxf") || filename.endsWith(".dwg") || filename.endsWith(".geojson"));
