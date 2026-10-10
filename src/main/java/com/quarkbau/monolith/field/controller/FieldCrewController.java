@@ -1,5 +1,6 @@
 package com.quarkbau.monolith.field.controller;
 
+import com.quarkbau.monolith.planning.workforce.team.Crew;
 import com.quarkbau.monolith.field.model.FieldCrew;
 import com.quarkbau.monolith.field.repository.FieldCrewRepository;
 import lombok.RequiredArgsConstructor;

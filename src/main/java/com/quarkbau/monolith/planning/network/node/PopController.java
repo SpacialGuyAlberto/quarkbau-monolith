@@ -1,0 +1,54 @@
+package com.quarkbau.monolith.planning.network.node;
+
+import com.quarkbau.monolith.planning.network.node.PopDTO;
+import com.quarkbau.monolith.planning.network.node.PopService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/pops")
+@RequiredArgsConstructor
+public class PopController {
+
+    private final PopService service;
+
+    @GetMapping
+    public ResponseEntity<List<PopDTO>> getAll() {
+        return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PopDTO> getById(@PathVariable Long id) {
+        PopDTO dto = service.findById(id);
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/by-cluster/{clusterId}")
+    public ResponseEntity<List<PopDTO>> getByClusterId(@PathVariable Long clusterId) {
+           List<PopDTO> pops = service.findByClusterId(clusterId);
+           return ResponseEntity.ok(pops);
+    }
+
+    @PostMapping
+    public ResponseEntity<PopDTO> create(@RequestBody PopDTO dto) {
+        return ResponseEntity.ok(service.save(dto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PopDTO> update(@PathVariable Long id, @RequestBody PopDTO dto) {
+        dto.setId(id);
+        return ResponseEntity.ok(service.save(dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+}

@@ -1,5 +1,7 @@
 package com.quarkbau.monolith.report.service;
 
+import com.quarkbau.monolith.planning.project.core.Project;
+import com.quarkbau.monolith.planning.segment.core.Segment;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
 import com.quarkbau.monolith.field.model.Evidence;
