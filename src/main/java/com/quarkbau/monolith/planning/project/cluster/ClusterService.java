@@ -47,6 +47,21 @@ public class ClusterService {
             Project project = projectRepository.findById(dto.getProjectId())
                     .orElseThrow(() -> new RuntimeException("Project not found: " + dto.getProjectId()));
             cluster.setProject(project);
+
+            if (cluster.getLatitude() == null) {
+                Double lat = project.getStartLatitude() != null ? project.getStartLatitude() : project.getLatitude();
+                if (lat == null && project.getGeometry() != null && !project.getGeometry().isEmpty()) {
+                    lat = project.getGeometry().get(0).getLat();
+                }
+                cluster.setLatitude(lat);
+            }
+            if (cluster.getLongitude() == null) {
+                Double lng = project.getStartLongitude() != null ? project.getStartLongitude() : project.getLongitude();
+                if (lng == null && project.getGeometry() != null && !project.getGeometry().isEmpty()) {
+                    lng = project.getGeometry().get(0).getLng();
+                }
+                cluster.setLongitude(lng);
+            }
         }
         cluster = clusterRepository.save(cluster);
         return clusterMapper.toDto(cluster);

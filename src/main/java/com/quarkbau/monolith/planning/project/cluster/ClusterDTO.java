@@ -17,5 +17,7 @@ public class ClusterDTO {
     private String description;
     private Long projectId;
     private Long projectManagerId;
+    private Double latitude;
+    private Double longitude;
     private List<PopDTO> pops;
 }

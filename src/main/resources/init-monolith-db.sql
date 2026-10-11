@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS clusters (
                                         id SERIAL PRIMARY KEY,
                                         name VARCHAR(255) NOT NULL,
                                         description TEXT,
+                                        latitude DOUBLE PRECISION,
+                                        longitude DOUBLE PRECISION,
                                         project_id INT REFERENCES public.projects(id),
                                         project_leiter_id INT REFERENCES public.users(id)
 );
