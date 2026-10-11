@@ -76,7 +76,7 @@ public class  SegmentService {
                     activeSegments = segmentRepository.findConflictingSegmentsByCrewIdAndDates(
                         crewId, segment.getPlannedStartDate(), segment.getPlannedEndDate());
                 } else {
-                    activeSegments = segmentRepository.findActiveSegmentsByCrewId(crewId);
+                    activeSegments = java.util.Collections.emptyList();
                 }
                 
                 if (!activeSegments.isEmpty()) {
@@ -128,7 +128,7 @@ public class  SegmentService {
                         activeSegments = segmentRepository.findConflictingSegmentsByCrewIdAndDates(
                             newCrewId, segmentDTO.getPlannedStartDate(), segmentDTO.getPlannedEndDate());
                     } else {
-                        activeSegments = segmentRepository.findActiveSegmentsByCrewId(newCrewId);
+                        activeSegments = java.util.Collections.emptyList();
                     }
                     
                     // Filter out the current segment

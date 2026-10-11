@@ -28,6 +28,16 @@ public class ProjectService {
         newProject.setGeometry(project.getGeometry());
         newProject.setLifecycleTodo(project.getLifecycleTodo());
         newProject.setLifecycleDone(project.getLifecycleDone());
+
+        Double lat = project.getLatitude() != null ? project.getLatitude() : project.getStartLatitude();
+        Double lng = project.getLongitude() != null ? project.getLongitude() : project.getStartLongitude();
+        if (lat == null && project.getGeometry() != null && !project.getGeometry().isEmpty()) {
+            lat = project.getGeometry().get(0).getLat();
+            lng = project.getGeometry().get(0).getLng();
+        }
+        newProject.setStartLatitude(lat);
+        newProject.setStartLongitude(lng);
+
         projectRepository.save(newProject);
 
         return projectMapper.toDto(newProject);
@@ -35,6 +45,14 @@ public class ProjectService {
 
     public ProjectDTO edit(ProjectDTO project) {
         Project mappedProject = projectMapper.toEntity(project);
+        if (mappedProject.getStartLatitude() == null) {
+            Double lat = project.getLatitude() != null ? project.getLatitude() : project.getStartLatitude();
+            mappedProject.setStartLatitude(lat);
+        }
+        if (mappedProject.getStartLongitude() == null) {
+            Double lng = project.getLongitude() != null ? project.getLongitude() : project.getStartLongitude();
+            mappedProject.setStartLongitude(lng);
+        }
         return projectMapper.toDto(projectRepository.save(mappedProject));
     }
 
@@ -45,11 +63,23 @@ public class ProjectService {
 
     public ProjectDTO update(ProjectDTO project) {
         Project mappedProject = projectMapper.toEntity(project);
+        if (mappedProject.getStartLatitude() == null) {
+            Double lat = project.getLatitude() != null ? project.getLatitude() : project.getStartLatitude();
+            mappedProject.setStartLatitude(lat);
+        }
+        if (mappedProject.getStartLongitude() == null) {
+            Double lng = project.getLongitude() != null ? project.getLongitude() : project.getStartLongitude();
+            mappedProject.setStartLongitude(lng);
+        }
         projectRepository.save(mappedProject);
         return projectMapper.toDto(mappedProject);
     }
 
     public Project findById(Long id) {
         return projectRepository.findById(id).orElse(null);
+    }
+
+    public Project save(Project project) {
+        return projectRepository.save(project);
     }
 }

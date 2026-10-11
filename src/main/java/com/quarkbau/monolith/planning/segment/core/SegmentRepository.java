@@ -21,7 +21,6 @@ public interface SegmentRepository extends JpaRepository<Segment, Long> {
     @Query("SELECT s FROM Segment s WHERE s.assignedCrew.id = :crewId AND s.currentState != com.quarkbau.monolith.planning.segment.workflow.WorkflowState.COMPLETED AND " +
            "(" +
            "  (s.plannedStartDate <= :endDate AND s.plannedEndDate >= :startDate) " +
-           "  OR (s.plannedStartDate IS NULL) " +
            ")")
     List<Segment> findConflictingSegmentsByCrewIdAndDates(
         @Param("crewId") Long crewId, 

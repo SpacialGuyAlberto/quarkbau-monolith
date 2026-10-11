@@ -37,6 +37,11 @@ public class SmartSegmentRecognitionService {
         if (project == null) {
             throw new IllegalArgumentException("Project not found: " + projectId);
         }
+        if (project.getStartLatitude() == null || project.getStartLongitude() == null) {
+            project.setStartLatitude(centerLat);
+            project.setStartLongitude(centerLng);
+            projectService.save(project);
+        }
 
         String filename = file.getOriginalFilename();
         boolean isDeterministic = filename != null && (filename.endsWith(".dxf") || filename.endsWith(".dwg") || filename.endsWith(".geojson"));

@@ -19,9 +19,15 @@ public interface ProjectMapper {
     @Mapping(source = "endDate", target = "endDate")
     @Mapping(source= "lifecycleTodo", target = "lifecycleTodo")
     @Mapping(source= "lifecycleDone", target = "lifecycleDone")
+    @Mapping(source = "startLatitude", target = "latitude")
+    @Mapping(source = "startLongitude", target = "longitude")
+    @Mapping(source = "startLatitude", target = "startLatitude")
+    @Mapping(source = "startLongitude", target = "startLongitude")
     ProjectDTO toDto(Project project);
 
     @Mapping(source = "organizationId", target = "organization.id")
     @Mapping(source= "lifecycleDone", target = "lifecycleDone")
+    @Mapping(source = "latitude", target = "startLatitude")
+    @Mapping(source = "longitude", target = "startLongitude")
     Project toEntity(ProjectDTO projectDto);
 }

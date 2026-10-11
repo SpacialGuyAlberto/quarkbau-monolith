@@ -49,6 +49,26 @@ public class Project {
     @Column(name = "longitude")
     private Double startLongitude;
 
+    @JsonProperty("latitude")
+    public Double getLatitude() {
+        return startLatitude;
+    }
+
+    @JsonProperty("latitude")
+    public void setLatitude(Double latitude) {
+        this.startLatitude = latitude;
+    }
+
+    @JsonProperty("longitude")
+    public Double getLongitude() {
+        return startLongitude;
+    }
+
+    @JsonProperty("longitude")
+    public void setLongitude(Double longitude) {
+        this.startLongitude = longitude;
+    }
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "geometry", columnDefinition = "jsonb")
     private List<GeometryPoint> geometry = new ArrayList<>();
