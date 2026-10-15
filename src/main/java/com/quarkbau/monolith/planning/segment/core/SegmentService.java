@@ -190,5 +190,11 @@ public class  SegmentService {
         return nearestSegments;
     }
 
+    public List<SegmentDTO> findActiveSegmentsByCrew(long crewId){
+        return segmentRepository.findActiveSegmentsByCrewId(crewId).stream().
+                map(segmentMapper::toDto).
+                collect(Collectors.toList());
+    }
+
 
 }

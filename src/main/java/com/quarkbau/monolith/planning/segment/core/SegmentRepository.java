@@ -49,4 +49,5 @@ public interface SegmentRepository extends JpaRepository<Segment, Long> {
             @Param("radiusMeters") double radiusMeters
     );
 
+
 }

@@ -40,4 +40,9 @@ public class SegmentController {
         return segmentService.findNearestSegments(lat, lng, radius);
     }
 
+    @GetMapping("/segments/crews/{crewId}/schedule")
+    public List<SegmentDTO> findSegmentByCrew(@PathVariable Long crewId) {
+            return segmentService.findActiveSegmentsByCrew(crewId);
+    }
+
 }
