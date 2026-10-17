@@ -1,10 +1,13 @@
 package com.quarkbau.monolith.auth.dto;
 
 import com.quarkbau.monolith.auth.model.UserRole;
+import com.quarkbau.monolith.planning.workforce.personnel.CompanyRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigInteger;
 
 @Data
 @Builder
@@ -16,5 +19,7 @@ public class RegisterRequest {
     private String firstName;
     private String lastName;
     private UserRole role;
+    private CompanyRole companyRole;
+    private Long subcontractorId;
     private Long organizationId;
 }
