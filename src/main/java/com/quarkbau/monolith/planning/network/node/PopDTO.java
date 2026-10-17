@@ -22,4 +22,7 @@ public class PopDTO {
     private Integer maxCapacityPorts;
     private Long clusterId;
     private List<NetzverteilerDTO> nvts;
+    private Long assignedCrewId;
+    private java.time.LocalDate plannedStartDate;
+    private java.time.LocalDate plannedEndDate;
 }

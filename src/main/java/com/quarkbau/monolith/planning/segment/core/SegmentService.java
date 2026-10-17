@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+import com.quarkbau.monolith.schedule.service.ScheduleService;
 import jakarta.persistence.EntityManager;
 
 @Service
@@ -36,6 +36,7 @@ public class  SegmentService {
     private final SegmentMapper segmentMapper;
     private final EntityManager entityManager;
     private final org.springframework.context.ApplicationEventPublisher eventPublisher;
+    private final ScheduleService scheduleService;
 
 
     @Transactional(value = "transactionManager", readOnly = true) // <-- FUERZA ESTO
@@ -98,6 +99,7 @@ public class  SegmentService {
             }
             
             Segment saved = segmentRepository.save(segment);
+            scheduleService.syncSegmentAssignments(saved);
             neo4jSyncService.syncSegment(saved);
             return segmentMapper.toDto(saved);
         });
@@ -169,6 +171,7 @@ public class  SegmentService {
             }
 
             Segment saved = segmentRepository.save(existingSegment);
+            scheduleService.syncSegmentAssignments(saved);
             neo4jSyncService.syncSegment(saved);
 
             if (stateChanged) {

@@ -22,4 +22,7 @@ public class NetzverteilerDTO {
     private List<Long> huepIds;
     private List<Long> outgoingSegmentIds;
     private List<Long> incomingSegmentIds;
+    private Long assignedCrewId;
+    private java.time.LocalDate plannedStartDate;
+    private java.time.LocalDate plannedEndDate;
 }

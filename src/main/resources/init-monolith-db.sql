@@ -165,6 +165,43 @@ CREATE TABLE IF NOT EXISTS segments (
     version BIGINT
 );
 
+CREATE TABLE IF NOT EXISTS crews (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    subcontractor_id BIGINT REFERENCES subcontractors(id),
+    foreman_name VARCHAR(255),
+    size INT,
+    vehicle_plate VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS crew_assignments (
+    id BIGSERIAL PRIMARY KEY,
+    crew_id BIGINT NOT NULL REFERENCES crews(id) ON DELETE CASCADE,
+    segment_id BIGINT REFERENCES segments(id) ON DELETE CASCADE,
+    node_id BIGINT,
+    node_type VARCHAR(50),
+    node_name VARCHAR(255),
+    assigned_date DATE NOT NULL,
+    start_time TIME,
+    end_time TIME,
+    status VARCHAR(50) NOT NULL DEFAULT 'SCHEDULED',
+    notes TEXT,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT chk_assignment_target CHECK (segment_id IS NOT NULL OR node_id IS NOT NULL),
+    CONSTRAINT chk_assignment_status CHECK (status IN ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED')),
+    CONSTRAINT chk_assignment_time CHECK (start_time IS NULL OR end_time IS NULL OR end_time > start_time)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS uq_crew_date_active 
+ON crew_assignments (crew_id, assigned_date) 
+WHERE status != 'CANCELLED';
+
+CREATE INDEX IF NOT EXISTS idx_crew_assignments_crew_date ON crew_assignments (crew_id, assigned_date);
+CREATE INDEX IF NOT EXISTS idx_crew_assignments_segment_date ON crew_assignments (segment_id, assigned_date);
+CREATE INDEX IF NOT EXISTS idx_crew_assignments_node_date ON crew_assignments (node_id, node_type, assigned_date);
+CREATE INDEX IF NOT EXISTS idx_crew_assignments_date_range ON crew_assignments (assigned_date);
+
 -- 4. Infrastructure Schema
 CREATE TABLE IF NOT EXISTS utility_providers (
     id BIGSERIAL PRIMARY KEY,
@@ -173,6 +210,40 @@ CREATE TABLE IF NOT EXISTS utility_providers (
     contact_email VARCHAR(255),
     service_region VARCHAR(255)
 );
+
+-- 1. Tabla de asignaciones diarias
+CREATE TABLE IF NOT EXISTS crew_assignments (
+                                                id BIGSERIAL PRIMARY KEY,
+                                                crew_id BIGINT NOT NULL,
+                                                segment_id BIGINT NOT NULL,
+                                                assigned_date DATE NOT NULL,
+                                                start_time TIME,
+                                                end_time TIME,
+                                                status VARCHAR(50) NOT NULL DEFAULT 'SCHEDULED',
+                                                notes TEXT,
+                                                created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                                                updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+    -- Claves foráneas
+                                                CONSTRAINT fk_crew_assignment_crew FOREIGN KEY (crew_id) REFERENCES crews(id) ON DELETE CASCADE,
+                                                CONSTRAINT fk_crew_assignment_segment FOREIGN KEY (segment_id) REFERENCES segments(id) ON DELETE CASCADE,
+
+    -- Restricciones
+                                                CONSTRAINT chk_assignment_status CHECK (status IN ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED')),
+                                                CONSTRAINT chk_assignment_time CHECK (start_time IS NULL OR end_time IS NULL OR end_time > start_time)
+);
+
+-- 2. Garantiza que cada asignación corresponda a un único día por cuadrilla
+-- (evita doble asignación activa el mismo día; permite reutilizar el día si fue CANCELLED):
+CREATE UNIQUE INDEX IF NOT EXISTS uq_crew_date_active
+    ON crew_assignments (crew_id, assigned_date)
+    WHERE status != 'CANCELLED';
+
+-- 3. Índices de rendimiento para calendarios y filtros
+CREATE INDEX IF NOT EXISTS idx_crew_assignments_crew_date ON crew_assignments (crew_id, assigned_date);
+CREATE INDEX IF NOT EXISTS idx_crew_assignments_segment_date ON crew_assignments (segment_id, assigned_date);
+CREATE INDEX IF NOT EXISTS idx_crew_assignments_date_range ON crew_assignments (assigned_date);
+
 
 CREATE TABLE IF NOT EXISTS inquiries (
     id BIGSERIAL PRIMARY KEY,

@@ -6,6 +6,7 @@ import com.quarkbau.monolith.planning.network.node.PopMapper;
 import com.quarkbau.monolith.planning.network.node.Pop;
 import com.quarkbau.monolith.planning.network.node.PopRepository;
 import com.quarkbau.monolith.planning.project.cluster.ClusterRepository;
+import com.quarkbau.monolith.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class PopService {
     private final PopRepository repository;
     private final ClusterRepository clusterRepository;
     private final PopMapper mapper;
+    private final ScheduleService scheduleService;
 
     public List<PopDTO> findAll() {
         return repository.findAll().stream()
@@ -50,7 +52,20 @@ public class PopService {
             com.quarkbau.monolith.planning.project.cluster.Cluster cluster = clusterRepository.findById(dto.getClusterId()).orElseThrow(() -> new IllegalArgumentException("Cluster not found"));
             entity.setCluster(cluster);
         }
-        return mapper.toDto(repository.save(entity));
+        Pop saved = repository.save(entity);
+
+        if (dto.getAssignedCrewId() != null && dto.getPlannedStartDate() != null && dto.getPlannedEndDate() != null) {
+            scheduleService.syncNodeAssignments(
+                    dto.getAssignedCrewId(),
+                    saved.getId(),
+                    "POP",
+                    saved.getName(),
+                    dto.getPlannedStartDate(),
+                    dto.getPlannedEndDate()
+            );
+        }
+
+        return mapper.toDto(saved);
     }
 
     public void deleteById(Long id) {
